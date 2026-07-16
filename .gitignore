@@ -5,3 +5,5 @@ __pycache__/
 *.key
 firmware/*.bin
 logs/*.log
+*.db
+test_firmware.bin

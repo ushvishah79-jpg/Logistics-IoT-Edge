@@ -2,3 +2,9 @@
 2026-07-16 01:04:28,932 [WARNING] Test warning message
 2026-07-16 01:04:28,933 [CRITICAL] [SECURITY ALERT] Test - tampered firmware detected
 2026-07-16 01:04:28,933 [INFO] [SUCCESS] Test success message
+2026-07-16 19:39:39,745 [INFO] Initiating firmware download for version: 1.0.0
+2026-07-16 19:39:39,745 [INFO] Downloading firmware from: http://localhost:8000/firmware/download/1.0.0
+2026-07-16 19:39:41,797 [INFO] Firmware saved to: firmware\firmware_v1.0.0.bin
+2026-07-16 19:39:41,797 [INFO] Downloading signature from: http://localhost:8000/firmware/signature/1.0.0
+2026-07-16 19:39:43,862 [INFO] Signature saved to: firmware\firmware_v1.0.0.sig
+2026-07-16 19:39:43,862 [INFO] Download complete for version: 1.0.0

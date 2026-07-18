@@ -1,0 +1,5 @@
+2026-07-18 19:51:08,149 [INFO] === Starting firmware download for version: 1.0.0 ===
+2026-07-18 19:51:08,150 [INFO] Generated SHA-256 hash: 060654401f4a23182be111936ffc61552fa5c3a87d28b314d9963be1f05815ea
+2026-07-18 19:51:08,151 [INFO] [SUCCESS] Firmware saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v1.0.0.bin
+2026-07-18 19:51:08,153 [INFO] [SUCCESS] Hash saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v1.0.0.hash
+2026-07-18 19:51:08,153 [INFO] [SUCCESS] === Download complete for version 1.0.0 ===

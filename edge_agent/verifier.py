@@ -1,10 +1,16 @@
 import hashlib
 import os
-from logger import log_info, log_critical, log_success, log_warning
+import sys
+from logger import log_info, log_warning, log_critical, log_success
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 
 def calculate_sha256(file_path: str) -> str:
-    """Calculate SHA-256 hash of a file"""
+    """
+    Firmware file ka SHA-256 hash calculate karo.
+    Chunk by chunk padta hai — badi files ke liye bhi safe hai.
+    """
     sha256 = hashlib.sha256()
     with open(file_path, "rb") as f:
         for chunk in iter(lambda: f.read(4096), b""):
@@ -12,55 +18,122 @@ def calculate_sha256(file_path: str) -> str:
     return sha256.hexdigest()
 
 
+def load_expected_hash(hash_file_path: str) -> str:
+    """
+    .hash file se expected hash padho.
+    Yeh hash downloader ne save kiya tha.
+    """
+    with open(hash_file_path, "r") as f:
+        return f.read().strip()
+
+
 def verify_hash(firmware_path: str, expected_hash: str) -> bool:
     """
-    Verify SHA-256 hash of downloaded firmware.
-    Agar hash match nahi hua = firmware tampered hai.
+    Downloaded firmware ka hash verify karo.
+    Agar match nahi hua = firmware tampered hai — REJECT karo!
     """
-    log_info(f"Verifying SHA-256 hash for: {firmware_path}")
+    log_info("="*45)
+    log_info("  SHA-256 HASH VERIFICATION STARTED")
+    log_info("="*45)
 
     if not os.path.exists(firmware_path):
         log_critical(f"Firmware file not found: {firmware_path}")
         return False
 
+    log_info(f"Firmware file : {firmware_path}")
+    log_info(f"Calculating SHA-256 hash...")
+
     actual_hash = calculate_sha256(firmware_path)
+
     log_info(f"Expected hash : {expected_hash}")
     log_info(f"Actual hash   : {actual_hash}")
 
     if actual_hash == expected_hash:
-        log_success("Hash verification PASSED")
+        log_success("Hash MATCHED — Firmware is genuine!")
+        log_success("="*45)
         return True
     else:
-        log_critical(
-            f"Hash mismatch! Firmware may be TAMPERED. "
-            f"Expected: {expected_hash} | Got: {actual_hash}"
-        )
+        log_critical("Hash MISMATCH — Firmware may be TAMPERED!")
+        log_critical(f"Expected : {expected_hash}")
+        log_critical(f"Got      : {actual_hash}")
+        log_critical("FIRMWARE REJECTED — Installation aborted!")
+        log_critical("="*45)
         return False
 
 
-def verify_signature(firmware_path: str, sig_path: str, pub_key_path: str) -> bool:
+def run_verification(version: str) -> dict:
     """
-    Verify digital signature of firmware using public key.
-    Member A se public key milne ke baad yeh kaam karega.
-    Week 3 mein implement hoga.
+    Complete verification run karo ek version ke liye.
+    Firmware path aur hash path automatically set hota hai.
     """
-    log_info("Signature verification - Week 3 implementation")
-    log_warning("Public key not yet provided by Member A (Crypto Lead)")
-    return False
+    firmware_dir = os.path.join(os.path.dirname(__file__), "..", "firmware")
+    firmware_path = os.path.join(firmware_dir, f"firmware_v{version}.bin")
+    hash_path = os.path.join(firmware_dir, f"firmware_v{version}.hash")
+
+    result = {
+        "version": version,
+        "firmware_path": firmware_path,
+        "hash_matched": False,
+        "action": None,
+        "error": None
+    }
+
+    try:
+        # Hash file check karo
+        if not os.path.exists(hash_path):
+            result["error"] = f"Hash file not found: {hash_path}"
+            log_critical(result["error"])
+            return result
+
+        # Expected hash load karo
+        expected_hash = load_expected_hash(hash_path)
+
+        # Verification karo
+        hash_matched = verify_hash(firmware_path, expected_hash)
+        result["hash_matched"] = hash_matched
+
+        if hash_matched:
+            result["action"] = "APPROVED — Ready for installation"
+            log_success(f"Firmware v{version} APPROVED!")
+        else:
+            result["action"] = "REJECTED — Firmware dropped"
+            log_critical(f"Firmware v{version} REJECTED!")
+
+    except Exception as e:
+        result["error"] = str(e)
+        log_critical(f"Verification error: {str(e)}")
+
+    return result
 
 
 if __name__ == "__main__":
-    import hashlib
-    test_content = b"TEST_FIRMWARE_CONTENT"
-    test_hash = hashlib.sha256(test_content).hexdigest()
+    print("\n" + "="*50)
+    print("  Edge Agent - Hash Verifier Test")
+    print("="*50 + "\n")
 
-    test_file = "firmware/test_firmware.bin"
-    os.makedirs("firmware", exist_ok=True)
-    with open(test_file, "wb") as f:
-        f.write(test_content)
+    # TEST 1 — Genuine firmware (pass hona chahiye)
+    print("\n--- TEST 1: Genuine Firmware ---")
+    result1 = run_verification("1.0.0")
+    print(f"Result  : {result1['action']}")
 
-    result = verify_hash(test_file, test_hash)
-    print(f"Verification result: {result}")
+    # TEST 2 — Tampered firmware (fail hona chahiye)
+    print("\n--- TEST 2: Tampered Firmware ---")
 
-    result_tampered = verify_hash(test_file, "wronghash123")
-    print(f"Tampered result: {result_tampered}")
+    # Tampered firmware ke liye ek galat hash file banao
+    firmware_dir = os.path.join(os.path.dirname(__file__), "..", "firmware")
+    tampered_hash_path = os.path.join(firmware_dir, "firmware_v1.0.0_tampered_test.hash")
+    with open(tampered_hash_path, "w") as f:
+        f.write("0000000000000000000000000000000000000000000000000000000000000000")
+
+    firmware_path = os.path.join(firmware_dir, "firmware_v1.0.0.bin")
+    fake_hash = "0000000000000000000000000000000000000000000000000000000000000000"
+
+    tampered_result = verify_hash(firmware_path, fake_hash)
+    if not tampered_result:
+        print("Result  : CORRECTLY REJECTED tampered firmware ✓")
+    else:
+        print("Result  : ERROR - should have been rejected!")
+
+    print("\n" + "="*50)
+    print("  Verification Tests Complete")
+    print("="*50)

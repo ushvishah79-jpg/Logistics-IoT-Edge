@@ -1,0 +1,142 @@
+2026-07-20 20:27:16,557 [INFO] =============================================
+2026-07-20 20:27:16,558 [INFO]   FIRMWARE INSTALLATION STARTED
+2026-07-20 20:27:16,558 [INFO] =============================================
+2026-07-20 20:27:16,558 [INFO] Current installed version : v0.0.0
+2026-07-20 20:27:16,558 [INFO] New firmware version      : v1.0.0
+2026-07-20 20:27:16,558 [INFO] [SUCCESS] Version check passed — v1.0.0 is newer than v0.0.0
+2026-07-20 20:27:16,559 [INFO] Step 1: Backing up current firmware...
+2026-07-20 20:27:16,559 [INFO] Step 2: Writing new firmware to flash memory...
+2026-07-20 20:27:16,559 [INFO] Step 3: Verifying flash integrity...
+2026-07-20 20:27:16,559 [INFO] Step 4: Updating version record...
+2026-07-20 20:27:16,560 [INFO] [SUCCESS] Version record updated to v1.0.0
+2026-07-20 20:27:16,560 [INFO] Step 5: Triggering mock device reboot...
+2026-07-20 20:27:16,561 [INFO] [SUCCESS] =============================================
+2026-07-20 20:27:16,561 [INFO] [SUCCESS] Firmware v1.0.0 INSTALLED SUCCESSFULLY!
+2026-07-20 20:27:16,561 [INFO] [SUCCESS] Device rebooting with new firmware...
+2026-07-20 20:27:16,561 [INFO] [SUCCESS] =============================================
+2026-07-20 20:27:16,561 [INFO] =============================================
+2026-07-20 20:27:16,561 [INFO]   FIRMWARE INSTALLATION STARTED
+2026-07-20 20:27:16,562 [INFO] =============================================
+2026-07-20 20:27:16,562 [INFO] Current installed version : v1.0.0
+2026-07-20 20:27:16,562 [INFO] New firmware version      : v0.9.0
+2026-07-20 20:27:16,562 [CRITICAL] [SECURITY ALERT] ANTI-ROLLBACK PROTECTION TRIGGERED! v0.9.0 is older than or equal to current v1.0.0
+2026-07-20 20:27:16,563 [CRITICAL] [SECURITY ALERT] Installation BLOCKED — Possible rollback attack!
+2026-07-20 20:27:16,564 [INFO] =============================================
+2026-07-20 20:27:16,564 [INFO]   FIRMWARE INSTALLATION STARTED
+2026-07-20 20:27:16,564 [INFO] =============================================
+2026-07-20 20:27:16,565 [INFO] Current installed version : v1.0.0
+2026-07-20 20:27:16,565 [INFO] New firmware version      : v1.0.0
+2026-07-20 20:27:16,565 [CRITICAL] [SECURITY ALERT] ANTI-ROLLBACK PROTECTION TRIGGERED! v1.0.0 is older than or equal to current v1.0.0
+2026-07-20 20:27:16,566 [CRITICAL] [SECURITY ALERT] Installation BLOCKED — Possible rollback attack!
+2026-07-20 20:27:31,345 [INFO] 
+[STEP 1] Downloading firmware v1.0.0...
+2026-07-20 20:27:31,345 [INFO] === Starting firmware download for version: 1.0.0 ===
+2026-07-20 20:27:31,346 [INFO] Generated SHA-256 hash: 060654401f4a23182be111936ffc61552fa5c3a87d28b314d9963be1f05815ea
+2026-07-20 20:27:31,347 [INFO] [SUCCESS] Firmware saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v1.0.0.bin
+2026-07-20 20:27:31,349 [INFO] [SUCCESS] Hash saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v1.0.0.hash
+2026-07-20 20:27:31,349 [INFO] [SUCCESS] === Download complete for version 1.0.0 ===
+2026-07-20 20:27:31,349 [INFO] [SUCCESS] Step 1 DONE — Firmware downloaded!
+2026-07-20 20:27:31,349 [INFO] 
+[STEP 2] Verifying firmware integrity...
+2026-07-20 20:27:31,350 [INFO] =============================================
+2026-07-20 20:27:31,350 [INFO]   SHA-256 HASH VERIFICATION STARTED
+2026-07-20 20:27:31,351 [INFO] =============================================
+2026-07-20 20:27:31,351 [INFO] Firmware file : C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v1.0.0.bin
+2026-07-20 20:27:31,351 [INFO] Calculating SHA-256 hash...
+2026-07-20 20:27:31,352 [INFO] Expected hash : 060654401f4a23182be111936ffc61552fa5c3a87d28b314d9963be1f05815ea
+2026-07-20 20:27:31,352 [INFO] Actual hash   : 060654401f4a23182be111936ffc61552fa5c3a87d28b314d9963be1f05815ea
+2026-07-20 20:27:31,352 [INFO] [SUCCESS] Hash MATCHED — Firmware is genuine!
+2026-07-20 20:27:31,352 [INFO] [SUCCESS] =============================================
+2026-07-20 20:27:31,353 [INFO] [SUCCESS] Firmware v1.0.0 APPROVED!
+2026-07-20 20:27:31,353 [INFO] [SUCCESS] Step 2 DONE — Firmware verified!
+2026-07-20 20:27:31,353 [INFO] 
+[STEP 3] Installing firmware v1.0.0...
+2026-07-20 20:27:31,353 [INFO] =============================================
+2026-07-20 20:27:31,353 [INFO]   FIRMWARE INSTALLATION STARTED
+2026-07-20 20:27:31,354 [INFO] =============================================
+2026-07-20 20:27:31,354 [INFO] Current installed version : v1.0.0
+2026-07-20 20:27:31,355 [INFO] New firmware version      : v1.0.0
+2026-07-20 20:27:31,355 [CRITICAL] [SECURITY ALERT] ANTI-ROLLBACK PROTECTION TRIGGERED! v1.0.0 is older than or equal to current v1.0.0
+2026-07-20 20:27:31,355 [CRITICAL] [SECURITY ALERT] Installation BLOCKED — Possible rollback attack!
+2026-07-20 20:27:31,356 [CRITICAL] [SECURITY ALERT] =============================================
+2026-07-20 20:27:31,356 [CRITICAL] [SECURITY ALERT]   FIRMWARE REJECTED
+2026-07-20 20:27:31,356 [CRITICAL] [SECURITY ALERT] =============================================
+2026-07-20 20:27:31,356 [CRITICAL] [SECURITY ALERT] Reason: Installation blocked by anti-rollback protection
+2026-07-20 20:27:31,357 [CRITICAL] [SECURITY ALERT] Device remains on current firmware — safe!
+2026-07-20 20:27:31,357 [CRITICAL] [SECURITY ALERT] =============================================
+2026-07-20 20:27:31,358 [INFO] 
+[STEP 1] Downloading firmware v2.0.0...
+2026-07-20 20:27:31,358 [INFO] === Starting firmware download for version: 2.0.0 ===
+2026-07-20 20:27:31,358 [INFO] Generated SHA-256 hash: e5431a8c9386a3184c2993dc67f6bf06c269e75060ed4557982e2299b25f6fed
+2026-07-20 20:27:31,359 [INFO] [SUCCESS] Firmware saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v2.0.0.bin
+2026-07-20 20:27:31,360 [INFO] [SUCCESS] Hash saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v2.0.0.hash
+2026-07-20 20:27:31,360 [INFO] [SUCCESS] === Download complete for version 2.0.0 ===
+2026-07-20 20:27:31,361 [INFO] [SUCCESS] Step 1 DONE — Firmware downloaded!
+2026-07-20 20:27:31,361 [INFO] 
+[STEP 2] Verifying firmware integrity...
+2026-07-20 20:27:31,363 [INFO] =============================================
+2026-07-20 20:27:31,363 [INFO]   SHA-256 HASH VERIFICATION STARTED
+2026-07-20 20:27:31,363 [INFO] =============================================
+2026-07-20 20:27:31,364 [INFO] Firmware file : C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v2.0.0.bin
+2026-07-20 20:27:31,364 [INFO] Calculating SHA-256 hash...
+2026-07-20 20:27:31,365 [INFO] Expected hash : e5431a8c9386a3184c2993dc67f6bf06c269e75060ed4557982e2299b25f6fed
+2026-07-20 20:27:31,366 [INFO] Actual hash   : e5431a8c9386a3184c2993dc67f6bf06c269e75060ed4557982e2299b25f6fed
+2026-07-20 20:27:31,366 [INFO] [SUCCESS] Hash MATCHED — Firmware is genuine!
+2026-07-20 20:27:31,366 [INFO] [SUCCESS] =============================================
+2026-07-20 20:27:31,367 [INFO] [SUCCESS] Firmware v2.0.0 APPROVED!
+2026-07-20 20:27:31,367 [INFO] [SUCCESS] Step 2 DONE — Firmware verified!
+2026-07-20 20:27:31,367 [INFO] 
+[STEP 3] Installing firmware v2.0.0...
+2026-07-20 20:27:31,367 [INFO] =============================================
+2026-07-20 20:27:31,367 [INFO]   FIRMWARE INSTALLATION STARTED
+2026-07-20 20:27:31,368 [INFO] =============================================
+2026-07-20 20:27:31,368 [INFO] Current installed version : v1.0.0
+2026-07-20 20:27:31,368 [INFO] New firmware version      : v2.0.0
+2026-07-20 20:27:31,368 [INFO] [SUCCESS] Version check passed — v2.0.0 is newer than v1.0.0
+2026-07-20 20:27:31,369 [INFO] Step 1: Backing up current firmware...
+2026-07-20 20:27:31,369 [INFO] Step 2: Writing new firmware to flash memory...
+2026-07-20 20:27:31,369 [INFO] Step 3: Verifying flash integrity...
+2026-07-20 20:27:31,369 [INFO] Step 4: Updating version record...
+2026-07-20 20:27:31,371 [INFO] [SUCCESS] Version record updated to v2.0.0
+2026-07-20 20:27:31,371 [INFO] Step 5: Triggering mock device reboot...
+2026-07-20 20:27:31,371 [INFO] [SUCCESS] =============================================
+2026-07-20 20:27:31,372 [INFO] [SUCCESS] Firmware v2.0.0 INSTALLED SUCCESSFULLY!
+2026-07-20 20:27:31,372 [INFO] [SUCCESS] Device rebooting with new firmware...
+2026-07-20 20:27:31,372 [INFO] [SUCCESS] =============================================
+2026-07-20 20:27:31,372 [INFO] [SUCCESS] Step 3 DONE — Firmware installed!
+2026-07-20 20:27:31,374 [INFO] 
+[STEP 1] Downloading firmware v0.5.0...
+2026-07-20 20:27:31,375 [INFO] === Starting firmware download for version: 0.5.0 ===
+2026-07-20 20:27:31,375 [INFO] Generated SHA-256 hash: eaafe8fe7f7d31687e942649809addd45e526e314c931826ba3ab4ae90a35f29
+2026-07-20 20:27:31,376 [INFO] [SUCCESS] Firmware saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v0.5.0.bin
+2026-07-20 20:27:31,377 [INFO] [SUCCESS] Hash saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v0.5.0.hash
+2026-07-20 20:27:31,378 [INFO] [SUCCESS] === Download complete for version 0.5.0 ===
+2026-07-20 20:27:31,378 [INFO] [SUCCESS] Step 1 DONE — Firmware downloaded!
+2026-07-20 20:27:31,378 [INFO] 
+[STEP 2] Verifying firmware integrity...
+2026-07-20 20:27:31,378 [INFO] =============================================
+2026-07-20 20:27:31,379 [INFO]   SHA-256 HASH VERIFICATION STARTED
+2026-07-20 20:27:31,379 [INFO] =============================================
+2026-07-20 20:27:31,379 [INFO] Firmware file : C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v0.5.0.bin
+2026-07-20 20:27:31,379 [INFO] Calculating SHA-256 hash...
+2026-07-20 20:27:31,380 [INFO] Expected hash : eaafe8fe7f7d31687e942649809addd45e526e314c931826ba3ab4ae90a35f29
+2026-07-20 20:27:31,380 [INFO] Actual hash   : eaafe8fe7f7d31687e942649809addd45e526e314c931826ba3ab4ae90a35f29
+2026-07-20 20:27:31,380 [INFO] [SUCCESS] Hash MATCHED — Firmware is genuine!
+2026-07-20 20:27:31,380 [INFO] [SUCCESS] =============================================
+2026-07-20 20:27:31,381 [INFO] [SUCCESS] Firmware v0.5.0 APPROVED!
+2026-07-20 20:27:31,381 [INFO] [SUCCESS] Step 2 DONE — Firmware verified!
+2026-07-20 20:27:31,381 [INFO] 
+[STEP 3] Installing firmware v0.5.0...
+2026-07-20 20:27:31,381 [INFO] =============================================
+2026-07-20 20:27:31,382 [INFO]   FIRMWARE INSTALLATION STARTED
+2026-07-20 20:27:31,382 [INFO] =============================================
+2026-07-20 20:27:31,383 [INFO] Current installed version : v2.0.0
+2026-07-20 20:27:31,383 [INFO] New firmware version      : v0.5.0
+2026-07-20 20:27:31,383 [CRITICAL] [SECURITY ALERT] ANTI-ROLLBACK PROTECTION TRIGGERED! v0.5.0 is older than or equal to current v2.0.0
+2026-07-20 20:27:31,383 [CRITICAL] [SECURITY ALERT] Installation BLOCKED — Possible rollback attack!
+2026-07-20 20:27:31,383 [CRITICAL] [SECURITY ALERT] =============================================
+2026-07-20 20:27:31,384 [CRITICAL] [SECURITY ALERT]   FIRMWARE REJECTED
+2026-07-20 20:27:31,384 [CRITICAL] [SECURITY ALERT] =============================================
+2026-07-20 20:27:31,384 [CRITICAL] [SECURITY ALERT] Reason: Installation blocked by anti-rollback protection
+2026-07-20 20:27:31,384 [CRITICAL] [SECURITY ALERT] Device remains on current firmware — safe!
+2026-07-20 20:27:31,385 [CRITICAL] [SECURITY ALERT] =============================================

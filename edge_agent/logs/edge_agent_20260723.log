@@ -1,0 +1,139 @@
+2026-07-23 01:06:29,209 [INFO] 
+[STEP 1] Downloading and signing firmware v3.0.0...
+2026-07-23 01:06:29,209 [INFO] === Starting firmware download for version: 3.0.0 ===
+2026-07-23 01:06:29,211 [INFO] Generated SHA-256 hash: eee3c92fd80d0a81d5c6b2d0c290158360fb67c5e24f37300f830816d132e01f
+2026-07-23 01:06:29,211 [INFO] [SUCCESS] Firmware saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v3.0.0.bin
+2026-07-23 01:06:29,212 [INFO] [SUCCESS] Hash saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v3.0.0.hash
+2026-07-23 01:06:29,213 [INFO] [SUCCESS] === Download complete for version 3.0.0 ===
+2026-07-23 01:06:29,213 [INFO] [SUCCESS] Step 1 DONE — Firmware downloaded and signed!
+2026-07-23 01:06:29,214 [INFO] 
+[STEP 2+3] Verifying hash and signature...
+2026-07-23 01:06:29,215 [INFO] =============================================
+2026-07-23 01:06:29,215 [INFO]   SHA-256 HASH VERIFICATION STARTED
+2026-07-23 01:06:29,215 [INFO] =============================================
+2026-07-23 01:06:29,215 [INFO] Firmware file : C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v3.0.0.bin
+2026-07-23 01:06:29,216 [INFO] Calculating SHA-256 hash...
+2026-07-23 01:06:29,216 [INFO] Expected hash : eee3c92fd80d0a81d5c6b2d0c290158360fb67c5e24f37300f830816d132e01f
+2026-07-23 01:06:29,216 [INFO] Actual hash   : eee3c92fd80d0a81d5c6b2d0c290158360fb67c5e24f37300f830816d132e01f
+2026-07-23 01:06:29,216 [INFO] [SUCCESS] Hash MATCHED — Firmware is genuine!
+2026-07-23 01:06:29,216 [INFO] [SUCCESS] =============================================
+2026-07-23 01:06:29,217 [INFO] [SUCCESS] Firmware v3.0.0 APPROVED!
+2026-07-23 01:08:17,592 [INFO] 
+[STEP 1] Downloading and signing firmware v3.0.0...
+2026-07-23 01:08:17,593 [INFO] === Starting firmware download for version: 3.0.0 ===
+2026-07-23 01:08:17,593 [INFO] Generated SHA-256 hash: eee3c92fd80d0a81d5c6b2d0c290158360fb67c5e24f37300f830816d132e01f
+2026-07-23 01:08:17,593 [INFO] [SUCCESS] Firmware saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v3.0.0.bin
+2026-07-23 01:08:17,594 [INFO] [SUCCESS] Hash saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v3.0.0.hash
+2026-07-23 01:08:17,594 [INFO] [SUCCESS] === Download complete for version 3.0.0 ===
+2026-07-23 01:08:17,595 [INFO] [SUCCESS] Step 1 DONE — Firmware downloaded and signed!
+2026-07-23 01:08:17,595 [INFO] 
+[STEP 2+3] Verifying hash and signature...
+2026-07-23 01:08:17,595 [INFO] =============================================
+2026-07-23 01:08:17,595 [INFO]   SHA-256 HASH VERIFICATION STARTED
+2026-07-23 01:08:17,596 [INFO] =============================================
+2026-07-23 01:08:17,596 [INFO] Firmware file : C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v3.0.0.bin
+2026-07-23 01:08:17,596 [INFO] Calculating SHA-256 hash...
+2026-07-23 01:08:17,596 [INFO] Expected hash : eee3c92fd80d0a81d5c6b2d0c290158360fb67c5e24f37300f830816d132e01f
+2026-07-23 01:08:17,596 [INFO] Actual hash   : eee3c92fd80d0a81d5c6b2d0c290158360fb67c5e24f37300f830816d132e01f
+2026-07-23 01:08:17,596 [INFO] [SUCCESS] Hash MATCHED — Firmware is genuine!
+2026-07-23 01:08:17,597 [INFO] [SUCCESS] =============================================
+2026-07-23 01:08:17,597 [INFO] [SUCCESS] Firmware v3.0.0 APPROVED!
+2026-07-23 01:08:17,597 [INFO] [SUCCESS] Step 2 DONE — Hash verified!
+2026-07-23 01:08:17,597 [INFO] [SUCCESS] Step 3 DONE — Signature verified!
+2026-07-23 01:08:17,597 [INFO] 
+[STEP 4] Installing firmware v3.0.0...
+2026-07-23 01:08:17,597 [INFO] =============================================
+2026-07-23 01:08:17,597 [INFO]   FIRMWARE INSTALLATION STARTED
+2026-07-23 01:08:17,598 [INFO] =============================================
+2026-07-23 01:08:17,598 [INFO] Current installed version : v2.0.0
+2026-07-23 01:08:17,598 [INFO] New firmware version      : v3.0.0
+2026-07-23 01:08:17,599 [INFO] [SUCCESS] Version check passed — v3.0.0 is newer than v2.0.0
+2026-07-23 01:08:17,599 [INFO] Step 1: Backing up current firmware...
+2026-07-23 01:08:17,600 [INFO] Step 2: Writing new firmware to flash memory...
+2026-07-23 01:08:17,600 [INFO] Step 3: Verifying flash integrity...
+2026-07-23 01:08:17,600 [INFO] Step 4: Updating version record...
+2026-07-23 01:08:17,601 [INFO] [SUCCESS] Version record updated to v3.0.0
+2026-07-23 01:08:17,602 [INFO] Step 5: Triggering mock device reboot...
+2026-07-23 01:08:17,602 [INFO] [SUCCESS] =============================================
+2026-07-23 01:08:17,602 [INFO] [SUCCESS] Firmware v3.0.0 INSTALLED SUCCESSFULLY!
+2026-07-23 01:08:17,602 [INFO] [SUCCESS] Device rebooting with new firmware...
+2026-07-23 01:08:17,603 [INFO] [SUCCESS] =============================================
+2026-07-23 01:08:17,603 [INFO] [SUCCESS] Step 4 DONE — Firmware installed!
+2026-07-23 01:08:17,603 [INFO] 
+[STEP 1] Downloading and signing firmware v4.0.0...
+2026-07-23 01:08:17,604 [INFO] === Starting firmware download for version: 4.0.0 ===
+2026-07-23 01:08:17,604 [INFO] Generated SHA-256 hash: d02a6181e7025df51da1a0d141016c35fd1968c886505c1ea4d32920e2b0bac9
+2026-07-23 01:08:17,605 [INFO] [SUCCESS] Firmware saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v4.0.0.bin
+2026-07-23 01:08:17,605 [INFO] [SUCCESS] Hash saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v4.0.0.hash
+2026-07-23 01:08:17,606 [INFO] [SUCCESS] === Download complete for version 4.0.0 ===
+2026-07-23 01:08:17,606 [INFO] [SUCCESS] Step 1 DONE — Firmware downloaded and signed!
+2026-07-23 01:08:17,606 [INFO] 
+[STEP 2+3] Verifying hash and signature...
+2026-07-23 01:08:17,606 [INFO] =============================================
+2026-07-23 01:08:17,606 [INFO]   SHA-256 HASH VERIFICATION STARTED
+2026-07-23 01:08:17,607 [INFO] =============================================
+2026-07-23 01:08:17,607 [INFO] Firmware file : C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v4.0.0.bin
+2026-07-23 01:08:17,607 [INFO] Calculating SHA-256 hash...
+2026-07-23 01:08:17,607 [INFO] Expected hash : d02a6181e7025df51da1a0d141016c35fd1968c886505c1ea4d32920e2b0bac9
+2026-07-23 01:08:17,607 [INFO] Actual hash   : d02a6181e7025df51da1a0d141016c35fd1968c886505c1ea4d32920e2b0bac9
+2026-07-23 01:08:17,607 [INFO] [SUCCESS] Hash MATCHED — Firmware is genuine!
+2026-07-23 01:08:17,608 [INFO] [SUCCESS] =============================================
+2026-07-23 01:08:17,608 [INFO] [SUCCESS] Firmware v4.0.0 APPROVED!
+2026-07-23 01:08:17,608 [INFO] [SUCCESS] Step 2 DONE — Hash verified!
+2026-07-23 01:08:17,608 [INFO] [SUCCESS] Step 3 DONE — Signature verified!
+2026-07-23 01:08:17,609 [INFO] 
+[STEP 4] Installing firmware v4.0.0...
+2026-07-23 01:08:17,611 [INFO] =============================================
+2026-07-23 01:08:17,611 [INFO]   FIRMWARE INSTALLATION STARTED
+2026-07-23 01:08:17,611 [INFO] =============================================
+2026-07-23 01:08:17,612 [INFO] Current installed version : v3.0.0
+2026-07-23 01:08:17,613 [INFO] New firmware version      : v4.0.0
+2026-07-23 01:08:17,614 [INFO] [SUCCESS] Version check passed — v4.0.0 is newer than v3.0.0
+2026-07-23 01:08:17,614 [INFO] Step 1: Backing up current firmware...
+2026-07-23 01:08:17,614 [INFO] Step 2: Writing new firmware to flash memory...
+2026-07-23 01:08:17,614 [INFO] Step 3: Verifying flash integrity...
+2026-07-23 01:08:17,615 [INFO] Step 4: Updating version record...
+2026-07-23 01:08:17,616 [INFO] [SUCCESS] Version record updated to v4.0.0
+2026-07-23 01:08:17,616 [INFO] Step 5: Triggering mock device reboot...
+2026-07-23 01:08:17,616 [INFO] [SUCCESS] =============================================
+2026-07-23 01:08:17,616 [INFO] [SUCCESS] Firmware v4.0.0 INSTALLED SUCCESSFULLY!
+2026-07-23 01:08:17,616 [INFO] [SUCCESS] Device rebooting with new firmware...
+2026-07-23 01:08:17,616 [INFO] [SUCCESS] =============================================
+2026-07-23 01:08:17,617 [INFO] [SUCCESS] Step 4 DONE — Firmware installed!
+2026-07-23 01:08:17,617 [INFO] 
+[STEP 1] Downloading and signing firmware v0.1.0...
+2026-07-23 01:08:17,617 [INFO] === Starting firmware download for version: 0.1.0 ===
+2026-07-23 01:08:17,618 [INFO] Generated SHA-256 hash: c970bb20a574cd07e332518fe08c4034ab7c46b197d9fb2249be268877106137
+2026-07-23 01:08:17,619 [INFO] [SUCCESS] Firmware saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v0.1.0.bin
+2026-07-23 01:08:17,620 [INFO] [SUCCESS] Hash saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v0.1.0.hash
+2026-07-23 01:08:17,621 [INFO] [SUCCESS] === Download complete for version 0.1.0 ===
+2026-07-23 01:08:17,621 [INFO] [SUCCESS] Step 1 DONE — Firmware downloaded and signed!
+2026-07-23 01:08:17,621 [INFO] 
+[STEP 2+3] Verifying hash and signature...
+2026-07-23 01:08:17,622 [INFO] =============================================
+2026-07-23 01:08:17,622 [INFO]   SHA-256 HASH VERIFICATION STARTED
+2026-07-23 01:08:17,622 [INFO] =============================================
+2026-07-23 01:08:17,623 [INFO] Firmware file : C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v0.1.0.bin
+2026-07-23 01:08:17,623 [INFO] Calculating SHA-256 hash...
+2026-07-23 01:08:17,623 [INFO] Expected hash : c970bb20a574cd07e332518fe08c4034ab7c46b197d9fb2249be268877106137
+2026-07-23 01:08:17,623 [INFO] Actual hash   : c970bb20a574cd07e332518fe08c4034ab7c46b197d9fb2249be268877106137
+2026-07-23 01:08:17,624 [INFO] [SUCCESS] Hash MATCHED — Firmware is genuine!
+2026-07-23 01:08:17,624 [INFO] [SUCCESS] =============================================
+2026-07-23 01:08:17,624 [INFO] [SUCCESS] Firmware v0.1.0 APPROVED!
+2026-07-23 01:08:17,624 [INFO] [SUCCESS] Step 2 DONE — Hash verified!
+2026-07-23 01:08:17,624 [INFO] [SUCCESS] Step 3 DONE — Signature verified!
+2026-07-23 01:08:17,624 [INFO] 
+[STEP 4] Installing firmware v0.1.0...
+2026-07-23 01:08:17,624 [INFO] =============================================
+2026-07-23 01:08:17,624 [INFO]   FIRMWARE INSTALLATION STARTED
+2026-07-23 01:08:17,625 [INFO] =============================================
+2026-07-23 01:08:17,625 [INFO] Current installed version : v4.0.0
+2026-07-23 01:08:17,625 [INFO] New firmware version      : v0.1.0
+2026-07-23 01:08:17,625 [CRITICAL] [SECURITY ALERT] ANTI-ROLLBACK PROTECTION TRIGGERED! v0.1.0 is older than or equal to current v4.0.0
+2026-07-23 01:08:17,625 [CRITICAL] [SECURITY ALERT] Installation BLOCKED — Possible rollback attack!
+2026-07-23 01:08:17,625 [CRITICAL] [SECURITY ALERT] =============================================
+2026-07-23 01:08:17,626 [CRITICAL] [SECURITY ALERT]   FIRMWARE REJECTED
+2026-07-23 01:08:17,626 [CRITICAL] [SECURITY ALERT] =============================================
+2026-07-23 01:08:17,626 [CRITICAL] [SECURITY ALERT] Reason: Blocked by anti-rollback protection
+2026-07-23 01:08:17,626 [CRITICAL] [SECURITY ALERT] Device remains on current firmware — safe!
+2026-07-23 01:08:17,627 [CRITICAL] [SECURITY ALERT] =============================================

@@ -1,7 +1,7 @@
 import hashlib
 
 class SignatureGenerator:
-    def _init_(self, firmware_name):
+    def __init__(self, firmware_name):
         self.firmware_name = firmware_name
 
     def generate_signature(self):

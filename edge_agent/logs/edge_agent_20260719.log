@@ -1,0 +1,22 @@
+2026-07-19 20:12:27,385 [INFO] =============================================
+2026-07-19 20:12:27,385 [INFO]   SHA-256 HASH VERIFICATION STARTED
+2026-07-19 20:12:27,386 [INFO] =============================================
+2026-07-19 20:12:27,386 [INFO] Firmware file : C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v1.0.0.bin
+2026-07-19 20:12:27,386 [INFO] Calculating SHA-256 hash...
+2026-07-19 20:12:27,387 [INFO] Expected hash : 060654401f4a23182be111936ffc61552fa5c3a87d28b314d9963be1f05815ea
+2026-07-19 20:12:27,387 [INFO] Actual hash   : 060654401f4a23182be111936ffc61552fa5c3a87d28b314d9963be1f05815ea
+2026-07-19 20:12:27,387 [INFO] [SUCCESS] Hash MATCHED — Firmware is genuine!
+2026-07-19 20:12:27,388 [INFO] [SUCCESS] =============================================
+2026-07-19 20:12:27,388 [INFO] [SUCCESS] Firmware v1.0.0 APPROVED!
+2026-07-19 20:12:27,389 [INFO] =============================================
+2026-07-19 20:12:27,389 [INFO]   SHA-256 HASH VERIFICATION STARTED
+2026-07-19 20:12:27,389 [INFO] =============================================
+2026-07-19 20:12:27,389 [INFO] Firmware file : C:\Users\Ushvi\project1\Logistics-IoT-Edge\edge_agent\..\firmware\firmware_v1.0.0.bin
+2026-07-19 20:12:27,389 [INFO] Calculating SHA-256 hash...
+2026-07-19 20:12:27,390 [INFO] Expected hash : 0000000000000000000000000000000000000000000000000000000000000000
+2026-07-19 20:12:27,390 [INFO] Actual hash   : 060654401f4a23182be111936ffc61552fa5c3a87d28b314d9963be1f05815ea
+2026-07-19 20:12:27,392 [CRITICAL] [SECURITY ALERT] Hash MISMATCH — Firmware may be TAMPERED!
+2026-07-19 20:12:27,393 [CRITICAL] [SECURITY ALERT] Expected : 0000000000000000000000000000000000000000000000000000000000000000
+2026-07-19 20:12:27,393 [CRITICAL] [SECURITY ALERT] Got      : 060654401f4a23182be111936ffc61552fa5c3a87d28b314d9963be1f05815ea
+2026-07-19 20:12:27,393 [CRITICAL] [SECURITY ALERT] FIRMWARE REJECTED — Installation aborted!
+2026-07-19 20:12:27,394 [CRITICAL] [SECURITY ALERT] =============================================

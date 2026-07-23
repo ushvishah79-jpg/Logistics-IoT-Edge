@@ -1,0 +1,12 @@
+name: Sign and Deploy Firmware
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  sign-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm trigger works
+        run: echo "Workflow triggered successfully for tag $GITHUB_REF_NAME"

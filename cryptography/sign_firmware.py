@@ -11,26 +11,22 @@ def sign_firmware(firmware_path, version, build_number):
     if not private_key_pem:
         raise RuntimeError("OTA_PRIVATE_KEY environment variable not set")
 
-    private_key = serialization.load_pem_private_key(
-        private_key_pem.encode(), password=None
-    )
+    # Normalize: handle literal \n from secrets, stray whitespace, etc.
+    private_key_pem = private_key_pem.strip()
+    if "\\n" in private_key_pem and "\n" not in private_key_pem:
+        private_key_pem = private_key_pem.replace("\\n", "\n")
 
-    signature = private_key.sign(firmware_hash.encode(), ec.ECDSA(hashes.SHA256()))
-
-    manifest = {
-        "version": version,
-        "build_number": build_number,
-        "sha256_hash": firmware_hash,
-        "signature_hex": signature.hex()
-    }
-
-    with open("manifest.json", "w") as f:
-        json.dump(manifest, f, indent=2)
-
-    print("Signed manifest created:")
-    print(json.dumps(manifest, indent=2))
-    return manifest
-
+    try:
+        private_key = serialization.load_pem_private_key(
+            private_key_pem.encode(), password=None
+        )
+    except ValueError as e:
+        # Debug info without leaking key material
+        print(f"Key length: {len(private_key_pem)}", file=sys.stderr)
+        print(f"First line: {private_key_pem.splitlines()[0]!r}", file=sys.stderr)
+        print(f"Last line: {private_key_pem.splitlines()[-1]!r}", file=sys.stderr)
+        raise RuntimeError(f"Failed to load private key: {e}") from e
+    
 if __name__ == "__main__":
     firmware_path = sys.argv[1]
     version = sys.argv[2]

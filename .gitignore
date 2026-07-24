@@ -1,3 +1,7 @@
+
+
+vendor_private.pem
+
 .env
 __pycache__/
 *.pyc

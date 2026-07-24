@@ -7,7 +7,6 @@ from hashing import compute_sha256
 
 def sign_firmware(firmware_path, version, build_number):
     firmware_hash = compute_sha256(firmware_path)
-
     private_key_pem = os.environ.get("OTA_PRIVATE_KEY")
     if not private_key_pem:
         raise RuntimeError("OTA_PRIVATE_KEY environment variable not set")
@@ -15,6 +14,7 @@ def sign_firmware(firmware_path, version, build_number):
     private_key = serialization.load_pem_private_key(
         private_key_pem.encode(), password=None
     )
+
     signature = private_key.sign(firmware_hash.encode(), ec.ECDSA(hashes.SHA256()))
 
     manifest = {
@@ -23,6 +23,7 @@ def sign_firmware(firmware_path, version, build_number):
         "sha256_hash": firmware_hash,
         "signature_hex": signature.hex()
     }
+
     with open("manifest.json", "w") as f:
         json.dump(manifest, f, indent=2)
 

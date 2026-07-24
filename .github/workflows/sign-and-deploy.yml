@@ -17,20 +17,14 @@ jobs:
       - name: Install dependencies
         run: pip install cryptography
 
-      - name: Decode private key
-        env:
-          OTA_PRIVATE_KEY: ${{ secrets.OTA_PRIVATE_KEY }}
-        run: |
-          echo "$OTA_PRIVATE_KEY" | base64 -d > cryptography/vendor_private.pem
-          echo "Key decoded, file size:"
-          wc -c cryptography/vendor_private.pem
-
       - name: Create dummy firmware for signing
         run: |
           python -c "open('cryptography/test_firmware.bin','wb').write(b'IOT_FIRMWARE_TEST' + bytes([1,2,3])*50)"
 
       - name: Sign firmware
         working-directory: cryptography
+        env:
+          OTA_PRIVATE_KEY: ${{ secrets.OTA_PRIVATE_KEY }}
         run: python sign_firmware.py test_firmware.bin 1.0.0 ${{ github.run_number }}
 
       - name: Upload signed artifact

@@ -1,6 +1,7 @@
 {
-  "version": "1.0.0",
-  "build_number": 1,
-  "sha256_hash": "dafac21080a5ffe0a04be0cd54d87ea2bdd118efadec7cbe8491c55e785728ea",
-  "signature_hex": "304502204e8fff986f6b58896d19a08de187bf589c795bf8d7663f7d0f5ec7b52f0cbfa1022100863c4a989ef043ec8a159383b22d1d810a083f87c19fb5db14ec358941f63c1d"
+    "version": "1.0.0",
+    "build_number": 1,
+    "firmware_file": "test_firmware.bin",
+    "sha256_hash": "dafac21080a5ffe0a04be0cd54d87ea2bdd118efadec7cbe8491c55e785728ea",
+    "signature_hex": "304502204c72dcc75af25578f7096ba792b88d006a411053d4e97ff42838415f1431e0bc022100bb68248199156e9c6ad587a507959bf936d0120213c5bd7f2c599f3d8f327aef"
 }

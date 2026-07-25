@@ -1,139 +1,340 @@
 import hashlib
 import os
-import sys
-from logger import log_info, log_warning, log_critical, log_success
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from logger import (
+    log_info,
+    log_warning,
+    log_critical,
+    log_success
+)
+
+from cryptography.hazmat.primitives import (
+    hashes,
+    serialization
+)
+
+from cryptography.hazmat.primitives.asymmetric import padding
+
+# ==================================================
+# PATH CONFIGURATION
+# ==================================================
+
+BASE_DIR = os.path.dirname(
+    os.path.abspath(__file__)
+)
 
 
-def calculate_sha256(file_path: str) -> str:
-    """
-    Firmware file ka SHA-256 hash calculate karo.
-    Chunk by chunk padta hai — badi files ke liye bhi safe hai.
-    """
+FIRMWARE_DIR = os.path.join(
+    BASE_DIR,
+    "firmware"
+)
+
+
+KEY_DIR = os.path.join(
+    BASE_DIR,
+    "keys"
+)
+
+
+FIRMWARE_FILE = os.path.join(
+    FIRMWARE_DIR,
+    "firmware_v1.0.0.bin"
+)
+
+
+SIGNATURE_FILE = os.path.join(
+    FIRMWARE_DIR,
+    "firmware_v1.0.0.sig"
+)
+
+
+PUBLIC_KEY_FILE = os.path.join(
+    KEY_DIR,
+    "public_key.pem"
+)
+
+
+HASH_FILE = os.path.join(
+    FIRMWARE_DIR,
+    "firmware_v1.0.0.hash"
+)
+
+
+
+# ==================================================
+# SHA256 HASH CALCULATION
+# ==================================================
+
+def calculate_sha256(file_path):
+
     sha256 = hashlib.sha256()
-    with open(file_path, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
+
+
+    with open(
+        file_path,
+        "rb"
+    ) as firmware:
+
+
+        for chunk in iter(
+            lambda: firmware.read(4096),
+            b""
+        ):
+
             sha256.update(chunk)
+
+
     return sha256.hexdigest()
 
 
-def load_expected_hash(hash_file_path: str) -> str:
-    """
-    .hash file se expected hash padho.
-    Yeh hash downloader ne save kiya tha.
-    """
-    with open(hash_file_path, "r") as f:
-        return f.read().strip()
+
+# ==================================================
+# HASH VERIFICATION
+# ==================================================
+
+def verify_hash():
 
 
-def verify_hash(firmware_path: str, expected_hash: str) -> bool:
-    """
-    Downloaded firmware ka hash verify karo.
-    Agar match nahi hua = firmware tampered hai — REJECT karo!
-    """
-    log_info("="*45)
-    log_info("  SHA-256 HASH VERIFICATION STARTED")
-    log_info("="*45)
+    log_info(
+        "SHA-256 Hash Verification Started"
+    )
 
-    if not os.path.exists(firmware_path):
-        log_critical(f"Firmware file not found: {firmware_path}")
-        return False
 
-    log_info(f"Firmware file : {firmware_path}")
-    log_info(f"Calculating SHA-256 hash...")
+    if not os.path.exists(FIRMWARE_FILE):
 
-    actual_hash = calculate_sha256(firmware_path)
+        log_critical(
+            "Firmware file not found"
+        )
 
-    log_info(f"Expected hash : {expected_hash}")
-    log_info(f"Actual hash   : {actual_hash}")
-
-    if actual_hash == expected_hash:
-        log_success("Hash MATCHED — Firmware is genuine!")
-        log_success("="*45)
-        return True
-    else:
-        log_critical("Hash MISMATCH — Firmware may be TAMPERED!")
-        log_critical(f"Expected : {expected_hash}")
-        log_critical(f"Got      : {actual_hash}")
-        log_critical("FIRMWARE REJECTED — Installation aborted!")
-        log_critical("="*45)
         return False
 
 
-def run_verification(version: str) -> dict:
-    """
-    Complete verification run karo ek version ke liye.
-    Firmware path aur hash path automatically set hota hai.
-    """
-    firmware_dir = os.path.join(os.path.dirname(__file__), "..", "firmware")
-    firmware_path = os.path.join(firmware_dir, f"firmware_v{version}.bin")
-    hash_path = os.path.join(firmware_dir, f"firmware_v{version}.hash")
 
-    result = {
-        "version": version,
-        "firmware_path": firmware_path,
-        "hash_matched": False,
-        "action": None,
-        "error": None
-    }
+    firmware_hash = calculate_sha256(
+        FIRMWARE_FILE
+    )
+
+
+    log_info(
+        f"Calculated SHA-256 : {firmware_hash}"
+    )
+
+
+
+    # Save hash for audit
+
+    with open(
+        HASH_FILE,
+        "w"
+    ) as file:
+
+        file.write(
+            firmware_hash
+        )
+
+
+    log_success(
+        "SHA-256 hash generated successfully"
+    )
+
+
+    return True
+
+
+
+
+# ==================================================
+# ECDSA SIGNATURE VERIFICATION
+# ==================================================
+
+def verify_signature():
+
+    log_info(
+        "Digital Signature Verification Started"
+    )
+
+
+    if not os.path.exists(SIGNATURE_FILE):
+
+        log_critical(
+            "Signature file missing"
+        )
+
+        return False
+
+
+
+    if not os.path.exists(PUBLIC_KEY_FILE):
+
+        log_critical(
+            "Public key missing"
+        )
+
+        return False
+
+
 
     try:
-        # Hash file check karo
-        if not os.path.exists(hash_path):
-            result["error"] = f"Hash file not found: {hash_path}"
-            log_critical(result["error"])
-            return result
 
-        # Expected hash load karo
-        expected_hash = load_expected_hash(hash_path)
+        # Load RSA public key
 
-        # Verification karo
-        hash_matched = verify_hash(firmware_path, expected_hash)
-        result["hash_matched"] = hash_matched
+        with open(
+            PUBLIC_KEY_FILE,
+            "rb"
+        ) as key_file:
 
-        if hash_matched:
-            result["action"] = "APPROVED — Ready for installation"
-            log_success(f"Firmware v{version} APPROVED!")
-        else:
-            result["action"] = "REJECTED — Firmware dropped"
-            log_critical(f"Firmware v{version} REJECTED!")
+            public_key = serialization.load_pem_public_key(
+                key_file.read()
+            )
 
-    except Exception as e:
-        result["error"] = str(e)
-        log_critical(f"Verification error: {str(e)}")
 
-    return result
 
+        # Read firmware
+
+        with open(
+            FIRMWARE_FILE,
+            "rb"
+        ) as firmware:
+
+            firmware_data = firmware.read()
+
+
+
+        # Read signature
+
+        with open(
+            SIGNATURE_FILE,
+            "rb"
+        ) as signature:
+
+            signature_data = signature.read()
+
+
+
+        # RSA PKCS1v15 Verification
+
+        public_key.verify(
+
+            signature_data,
+
+            firmware_data,
+
+            padding.PKCS1v15(),
+
+            hashes.SHA256()
+
+        )
+
+
+        log_success(
+            "Digital Signature VALID"
+        )
+
+
+        return True
+
+
+
+    except Exception as error:
+
+
+        log_critical(
+            f"Signature Verification Failed: {error}"
+        )
+
+
+        return False
+
+# ==================================================
+# COMPLETE OTA VERIFICATION
+# ==================================================
+
+def verify_firmware():
+
+
+    log_info("=" * 50)
+
+    log_info(
+        "EDGE DEVICE OTA VERIFICATION"
+    )
+
+    log_info("=" * 50)
+
+
+
+    # Step 1: Hash verification
+
+    hash_status = verify_hash()
+
+
+
+    if not hash_status:
+
+
+        log_warning(
+            "Firmware rejected because hash failed"
+        )
+
+        return False
+
+
+
+    # Step 2: Signature verification
+
+    signature_status = verify_signature()
+
+
+
+    if not signature_status:
+
+
+        log_warning(
+            "Firmware rejected because signature failed"
+        )
+
+        return False
+
+
+
+    log_success(
+        "FIRMWARE APPROVED FOR INSTALLATION"
+    )
+
+
+    return True
+
+
+
+
+# ==================================================
+# MAIN TEST EXECUTION
+# ==================================================
 
 if __name__ == "__main__":
-    print("\n" + "="*50)
-    print("  Edge Agent - Hash Verifier Test")
-    print("="*50 + "\n")
 
-    # TEST 1 — Genuine firmware (pass hona chahiye)
-    print("\n--- TEST 1: Genuine Firmware ---")
-    result1 = run_verification("1.0.0")
-    print(f"Result  : {result1['action']}")
 
-    # TEST 2 — Tampered firmware (fail hona chahiye)
-    print("\n--- TEST 2: Tampered Firmware ---")
+    print("\n")
+    print("=" * 50)
+    print(" IoT Edge Firmware Verification Test ")
+    print("=" * 50)
 
-    # Tampered firmware ke liye ek galat hash file banao
-    firmware_dir = os.path.join(os.path.dirname(__file__), "..", "firmware")
-    tampered_hash_path = os.path.join(firmware_dir, "firmware_v1.0.0_tampered_test.hash")
-    with open(tampered_hash_path, "w") as f:
-        f.write("0000000000000000000000000000000000000000000000000000000000000000")
 
-    firmware_path = os.path.join(firmware_dir, "firmware_v1.0.0.bin")
-    fake_hash = "0000000000000000000000000000000000000000000000000000000000000000"
 
-    tampered_result = verify_hash(firmware_path, fake_hash)
-    if not tampered_result:
-        print("Result  : CORRECTLY REJECTED tampered firmware ✓")
+    result = verify_firmware()
+
+
+
+    if result:
+
+
+        print(
+            "\nSTATUS : UPDATE ALLOWED ✅"
+        )
+
+
     else:
-        print("Result  : ERROR - should have been rejected!")
 
-    print("\n" + "="*50)
-    print("  Verification Tests Complete")
-    print("="*50)
+
+        print(
+            "\nSTATUS : UPDATE BLOCKED ❌"
+        )

@@ -1,0 +1,34 @@
+name: Sign and Deploy Firmware
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  sign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install cryptography
+
+      - name: Create dummy firmware for signing
+        run: |
+          python -c "open('cryptography/test_firmware.bin','wb').write(b'IOT_FIRMWARE_TEST' + bytes([1,2,3])*50)"
+
+      - name: Sign firmware
+        working-directory: cryptography
+        env:
+          OTA_PRIVATE_KEY: ${{ secrets.OTA_PRIVATE_KEY }}
+        run: python sign_firmware.py test_firmware.bin 1.0.0 ${{ github.run_number }}
+
+      - name: Upload signed artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-manifest
+          path: cryptography/manifest.json

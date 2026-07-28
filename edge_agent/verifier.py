@@ -1,9 +1,12 @@
 import hashlib
 import os
-import sys
-from logger import log_info, log_warning, log_critical, log_success
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from logger import (
+    log_info,
+    log_warning,
+    log_critical,
+    log_success
+)
 
 KEYS_DIR = os.path.join(os.path.dirname(__file__), "..", "keys")
 FIRMWARE_DIR = os.path.join(os.path.dirname(__file__), "..", "firmware")
@@ -11,9 +14,22 @@ FIRMWARE_DIR = os.path.join(os.path.dirname(__file__), "..", "firmware")
 
 def calculate_sha256(file_path: str) -> str:
     sha256 = hashlib.sha256()
-    with open(file_path, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
+
+
+    with open(
+        file_path,
+        "rb"
+    ) as firmware:
+
+
+        for chunk in iter(
+            lambda: firmware.read(4096),
+            b""
+        ):
+
             sha256.update(chunk)
+
+
     return sha256.hexdigest()
 
 
@@ -21,6 +37,11 @@ def load_expected_hash(hash_file_path: str) -> str:
     with open(hash_file_path, "r") as f:
         return f.read().strip()
 
+# ==================================================
+# HASH VERIFICATION
+# ==================================================
+
+def verify_hash():
 
 def verify_hash(firmware_path: str, expected_hash: str) -> bool:
     log_info("="*45)

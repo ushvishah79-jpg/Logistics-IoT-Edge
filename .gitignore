@@ -1,9 +1,16 @@
-.env
+# Private keys - NEVER upload
+cryptography/keys/vendor_private.pem
+
+# Python cache
 __pycache__/
 *.pyc
-*.pem
-*.key
-firmware/*.bin
-logs/*.log
-*.db
-test_firmware.bin
+
+# Virtual environment
+venv/
+.venv/
+
+# Generated firmware files
+cryptography/test_firmware.bin
+
+# Temporary files
+*.log

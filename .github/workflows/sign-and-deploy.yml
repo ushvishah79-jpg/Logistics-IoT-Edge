@@ -1,34 +1,75 @@
 name: Sign and Deploy Firmware
+
 on:
   push:
     tags:
       - 'v*'
+
 jobs:
   sign:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
-      - name: Install dependencies
-        run: pip install cryptography
+      - name: Install Dependencies
+        run: |
+          pip install cryptography requests
 
-      - name: Create dummy firmware for signing
+      - name: Create Dummy Firmware
         run: |
           python -c "open('cryptography/test_firmware.bin','wb').write(b'IOT_FIRMWARE_TEST' + bytes([1,2,3])*50)"
 
-      - name: Sign firmware
+      - name: Sign Firmware
         working-directory: cryptography
         env:
           OTA_PRIVATE_KEY: ${{ secrets.OTA_PRIVATE_KEY }}
-        run: python sign_firmware.py test_firmware.bin 1.0.0 ${{ github.run_number }}
+        run: |
+          python sign_firmware.py test_firmware.bin 1.0.0 ${{ github.run_number }}
 
-      - name: Upload signed artifact
+      - name: Upload Firmware to OTA Backend
+        working-directory: cryptography
+        env:
+          OTA_BACKEND_URL: ${{ secrets.OTA_BACKEND_URL }}
+        run: |
+          python - <<EOF
+          import json
+          import requests
+
+          with open("manifest.json") as f:
+              manifest = json.load(f)
+
+          url = f"{'${{ secrets.OTA_BACKEND_URL }}'}/firmware/upload"
+
+          files = {
+              "file": open("test_firmware.bin", "rb")
+          }
+
+          data = {
+              "version": manifest["version"],
+              "build_number": manifest["build_number"],
+              "sha256_hash": manifest["sha256_hash"],
+              "signature_hex": manifest["signature_hex"]
+          }
+
+          response = requests.post(url, files=files, data=data)
+
+          print(response.status_code)
+          print(response.text)
+
+          response.raise_for_status()
+          EOF
+
+      - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: signed-manifest
-          path: cryptography/manifest.json
+          name: signed-firmware
+          path: |
+            cryptography/manifest.json
+            cryptography/test_firmware.bin

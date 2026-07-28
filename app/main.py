@@ -52,7 +52,8 @@ async def upload_firmware(
 ):
 
     filename = f"{version}_{build_number}.bin"
-    file_path = os.path.join(FIRMWARE_DIR, filename)
+    #file_path = os.path.join(FIRMWARE_DIR, filename)
+    file_path = os.path.join(FIRMWARE_DIR, f"{version}-build{build_number}.bin")
 
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)

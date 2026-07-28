@@ -1,0 +1,64 @@
+2026-07-28 12:25:37,077 [INFO] === Starting firmware download for version: 5.0.0 ===
+2026-07-28 12:25:37,078 [INFO] Generated SHA-256 hash: e4ec1cb64479153534a8522de1f9711d1c997d036c44fbac1cd94d88a62a77a3
+2026-07-28 12:25:37,079 [INFO] [SUCCESS] Firmware saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\tests\..\edge_agent\..\firmware\firmware_v5.0.0.bin
+2026-07-28 12:25:37,081 [INFO] [SUCCESS] Hash saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\tests\..\edge_agent\..\firmware\firmware_v5.0.0.hash
+2026-07-28 12:25:37,081 [INFO] [SUCCESS] === Download complete for version 5.0.0 ===
+2026-07-28 12:25:37,082 [INFO] =============================================
+2026-07-28 12:25:37,082 [INFO]   SHA-256 HASH VERIFICATION
+2026-07-28 12:25:37,083 [INFO] =============================================
+2026-07-28 12:25:37,084 [INFO] Expected hash : e4ec1cb64479153534a8522de1f9711d1c997d036c44fbac1cd94d88a62a77a3
+2026-07-28 12:25:37,084 [INFO] Actual hash   : e4ec1cb64479153534a8522de1f9711d1c997d036c44fbac1cd94d88a62a77a3
+2026-07-28 12:25:37,084 [INFO] [SUCCESS] Hash MATCHED — Firmware not tampered!
+2026-07-28 12:25:37,085 [INFO] [SUCCESS] Step 2 DONE — Hash verified!
+2026-07-28 12:25:37,085 [WARNING] Signature file not found — skipping
+2026-07-28 12:25:37,085 [INFO] [SUCCESS] Firmware v5.0.0 FULLY VERIFIED AND APPROVED!
+2026-07-28 12:25:37,085 [INFO] =============================================
+2026-07-28 12:25:37,086 [INFO]   FIRMWARE INSTALLATION STARTED
+2026-07-28 12:25:37,086 [INFO] =============================================
+2026-07-28 12:25:37,087 [INFO] Current installed version : v4.0.0
+2026-07-28 12:25:37,087 [INFO] New firmware version      : v5.0.0
+2026-07-28 12:25:37,088 [INFO] [SUCCESS] Version check passed — v5.0.0 is newer than v4.0.0
+2026-07-28 12:25:37,089 [INFO] Step 1: Backing up current firmware...
+2026-07-28 12:25:37,089 [INFO] Step 2: Writing new firmware to flash memory...
+2026-07-28 12:25:37,089 [INFO] Step 3: Verifying flash integrity...
+2026-07-28 12:25:37,089 [INFO] Step 4: Updating version record...
+2026-07-28 12:25:37,091 [INFO] [SUCCESS] Version record updated to v5.0.0
+2026-07-28 12:25:37,091 [INFO] Step 5: Triggering mock device reboot...
+2026-07-28 12:25:37,091 [INFO] [SUCCESS] =============================================
+2026-07-28 12:25:37,091 [INFO] [SUCCESS] Firmware v5.0.0 INSTALLED SUCCESSFULLY!
+2026-07-28 12:25:37,092 [INFO] [SUCCESS] Device rebooting with new firmware...
+2026-07-28 12:25:37,092 [INFO] [SUCCESS] =============================================
+2026-07-28 12:25:37,093 [INFO] === Starting firmware download for version: 5.1.0 ===
+2026-07-28 12:25:37,093 [INFO] Generated SHA-256 hash: d071b8f8be27a4a4a3088f928672bf07c7cff2dc4d510c85e2c511978a83fe6b
+2026-07-28 12:25:37,094 [INFO] [SUCCESS] Firmware saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\tests\..\edge_agent\..\firmware\firmware_v5.1.0.bin
+2026-07-28 12:25:37,095 [INFO] [SUCCESS] Hash saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\tests\..\edge_agent\..\firmware\firmware_v5.1.0.hash
+2026-07-28 12:25:37,096 [INFO] [SUCCESS] === Download complete for version 5.1.0 ===
+2026-07-28 12:25:37,097 [INFO] =============================================
+2026-07-28 12:25:37,097 [INFO]   SHA-256 HASH VERIFICATION
+2026-07-28 12:25:37,097 [INFO] =============================================
+2026-07-28 12:25:37,098 [INFO] Expected hash : d071b8f8be27a4a4a3088f928672bf07c7cff2dc4d510c85e2c511978a83fe6b
+2026-07-28 12:25:37,098 [INFO] Actual hash   : 3d247330bde07245ebab8f0c1413f2dd3291be1c679044a2894f479cb07a5d0e
+2026-07-28 12:25:37,098 [CRITICAL] [SECURITY ALERT] Hash MISMATCH — Firmware TAMPERED!
+2026-07-28 12:25:37,098 [CRITICAL] [SECURITY ALERT] FIRMWARE REJECTED!
+2026-07-28 12:25:37,099 [INFO] === Starting firmware download for version: 0.0.1 ===
+2026-07-28 12:25:37,100 [INFO] Generated SHA-256 hash: 9c60aacb5d354a9b81c2ebf8089233aad33e5d4ad671131c505f019e71a645eb
+2026-07-28 12:25:37,102 [INFO] [SUCCESS] Firmware saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\tests\..\edge_agent\..\firmware\firmware_v0.0.1.bin
+2026-07-28 12:25:37,105 [INFO] [SUCCESS] Hash saved: C:\Users\Ushvi\project1\Logistics-IoT-Edge\tests\..\edge_agent\..\firmware\firmware_v0.0.1.hash
+2026-07-28 12:25:37,106 [INFO] [SUCCESS] === Download complete for version 0.0.1 ===
+2026-07-28 12:25:37,106 [INFO] =============================================
+2026-07-28 12:25:37,107 [INFO]   SHA-256 HASH VERIFICATION
+2026-07-28 12:25:37,107 [INFO] =============================================
+2026-07-28 12:25:37,107 [INFO] Expected hash : 9c60aacb5d354a9b81c2ebf8089233aad33e5d4ad671131c505f019e71a645eb
+2026-07-28 12:25:37,108 [INFO] Actual hash   : 9c60aacb5d354a9b81c2ebf8089233aad33e5d4ad671131c505f019e71a645eb
+2026-07-28 12:25:37,108 [INFO] [SUCCESS] Hash MATCHED — Firmware not tampered!
+2026-07-28 12:25:37,108 [INFO] [SUCCESS] Step 2 DONE — Hash verified!
+2026-07-28 12:25:37,108 [WARNING] Signature file not found — skipping
+2026-07-28 12:25:37,108 [INFO] [SUCCESS] Firmware v0.0.1 FULLY VERIFIED AND APPROVED!
+2026-07-28 12:25:37,108 [INFO] =============================================
+2026-07-28 12:25:37,109 [INFO]   FIRMWARE INSTALLATION STARTED
+2026-07-28 12:25:37,109 [INFO] =============================================
+2026-07-28 12:25:37,109 [INFO] Current installed version : v5.0.0
+2026-07-28 12:25:37,109 [INFO] New firmware version      : v0.0.1
+2026-07-28 12:25:37,109 [CRITICAL] [SECURITY ALERT] ANTI-ROLLBACK PROTECTION TRIGGERED! v0.0.1 is older than or equal to current v5.0.0
+2026-07-28 12:25:37,109 [CRITICAL] [SECURITY ALERT] Installation BLOCKED — Possible rollback attack!
+2026-07-28 12:25:37,110 [WARNING] Hash file not found!

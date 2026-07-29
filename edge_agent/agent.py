@@ -1,88 +1,57 @@
-"""
-Main Edge Agent — Complete OTA Pipeline
-Download → Hash Verify → Signature Verify → Install ya Reject
-"""
-import os
-import sys
-from logger import log_info, log_critical, log_success, log_warning
-from downloader import download_firmware_local
-from verifier import run_verification as run_full_verification
-from installer import simulate_installation, reject_firmware
+import requests
+import hashlib
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.exceptions import InvalidSignature
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+BASE_URL = "https://logistics-iot-edge.onrender.com"
+DEVICE_ID = "device-001"
+PUBLIC_KEY_PATH = "device_public.pem"
 
+def check_and_install_update():
+    r = requests.get(f"{BASE_URL}/devices/{DEVICE_ID}/check-update")
+    data = r.json()
 
-def run_ota_update(version: str):
-    """
-    Complete OTA update pipeline:
-    Step 1: Download + Sign firmware
-    Step 2: Verify SHA-256 hash
-    Step 3: Verify Digital Signature
-    Step 4: Install ya Reject
-    """
-    print("\n" + "="*55)
-    print(f"  OTA UPDATE PIPELINE — v{version}")
-    print("="*55)
+    if not data.get("update_available"):
+        print("No update available.")
+        return
 
-    # STEP 1: Download + Sign
-    log_info(f"\n[STEP 1] Downloading and signing firmware v{version}...")
-    download_result = download_firmware_local(version)
+    print(f"Update available: {data['latest_version']}")
 
-    if not download_result["success"]:
-        log_critical(f"Download failed: {download_result['error']}")
-        reject_firmware("Download failed")
-        return False
+    download_url = f"{BASE_URL}{data['download_url']}"
+    fw_response = requests.get(download_url)
+    firmware_bytes = fw_response.content
 
-    log_success("Step 1 DONE — Firmware downloaded and signed!")
+    # 1. Verify hash
+    computed_hash = hashlib.sha256(firmware_bytes).hexdigest()
+    if computed_hash != data["sha256_hash"]:
+        print("[CRITICAL] Hash mismatch — firmware corrupted or tampered. Rejecting.")
+        report_status(data["firmware_id"], "hash_fail")
+        return
 
-    # STEP 2 + 3: Hash + Signature verify
-    log_info(f"\n[STEP 2+3] Verifying hash and signature...")
-    verify_result = run_full_verification(version)
+    # 2. Verify signature — RSA-PKCS1v15, signed over RAW firmware bytes (not the hash string)
+    public_key = serialization.load_pem_public_key(open(PUBLIC_KEY_PATH, "rb").read())
+    try:
+        public_key.verify(
+            bytes.fromhex(data["signature_hex"]),
+            firmware_bytes,
+            padding.PKCS1v15(),
+            hashes.SHA256()
+        )
+    except InvalidSignature:
+        print("[CRITICAL] Signature invalid. Rejecting.")
+        report_status(data["firmware_id"], "signature_fail")
+        return
 
-    if not verify_result.get("hash_matched", verify_result.get("hash_verified", False)):
-        log_critical("Hash verification failed!")
-        reject_firmware("Hash mismatch — firmware tampered!")
-        return False
+    print("[OK] Hash and signature verified. Installing firmware and rebooting...")
+    report_status(data["firmware_id"], "success")
 
-    log_success("Step 2 DONE — Hash verified!")
-
-    if not verify_result.get("signature_verified", True):
-        log_critical("Signature verification failed!")
-        reject_firmware("Invalid signature — firmware not authentic!")
-        return False
-
-    log_success("Step 3 DONE — Signature verified!")
-
-    # STEP 4: Install
-    log_info(f"\n[STEP 4] Installing firmware v{version}...")
-    firmware_path = download_result["firmware_path"]
-    install_result = simulate_installation(firmware_path, version)
-
-    if install_result:
-        log_success("Step 4 DONE — Firmware installed!")
-        print("\n" + "="*55)
-        print(f"  ✓ OTA UPDATE COMPLETE — v{version} installed!")
-        print("="*55)
-        return True
-    else:
-        reject_firmware("Blocked by anti-rollback protection")
-        return False
-
+def report_status(firmware_id, status):
+    requests.post(
+        f"{BASE_URL}/devices/{DEVICE_ID}/report",
+        params={"firmware_id": firmware_id, "status": status}
+    )
+    print(f"Reported status: {status}")
 
 if __name__ == "__main__":
-    print("\n" + "="*55)
-    print("  Edge Agent — Full OTA Pipeline (Week 3)")
-    print("  Now with Digital Signature Verification!")
-    print("="*55)
-
-    # TEST 1 — Normal update with signature
-    print("\n\n=== TEST 1: Full OTA Update v3.0.0 (with signature) ===")
-    run_ota_update("3.0.0")
-
-    # TEST 2 — Upgrade
-    print("\n\n=== TEST 2: Upgrade to v4.0.0 ===")
-    run_ota_update("4.0.0")
-
-    # TEST 3 — Rollback attempt
-    print("\n\n=== TEST 3: Rollback Attack v0.1.0 ===")
-    run_ota_update("0.1.0")
+    check_and_install_update()

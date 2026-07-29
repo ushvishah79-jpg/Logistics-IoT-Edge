@@ -3,7 +3,7 @@ name: Sign and Deploy Firmware
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   sign:
@@ -40,12 +40,16 @@ jobs:
         run: |
           python - <<EOF
           import json
+          import os
           import requests
 
-          with open("manifest.json") as f:
+          with open("manifest.json", "r") as f:
               manifest = json.load(f)
 
-          url = f"{'${{ secrets.OTA_BACKEND_URL }}'}/firmware/upload"
+          # Build URL from GitHub Secret
+          url = os.environ["OTA_BACKEND_URL"].rstrip("/") + "/firmware/upload"
+
+          print("Uploading to:", url)
 
           files = {
               "file": open("test_firmware.bin", "rb")
@@ -53,17 +57,19 @@ jobs:
 
           data = {
               "version": manifest["version"],
-              "build_number": manifest["build_number"],
+              "build_number": str(manifest["build_number"]),
               "sha256_hash": manifest["sha256_hash"],
               "signature_hex": manifest["signature_hex"]
           }
 
           response = requests.post(url, files=files, data=data)
 
-          print(response.status_code)
-          print(response.text)
+          print("Status Code:", response.status_code)
+          print("Response:", response.text)
 
           response.raise_for_status()
+
+          print("✅ Firmware uploaded successfully!")
           EOF
 
       - name: Upload Build Artifacts

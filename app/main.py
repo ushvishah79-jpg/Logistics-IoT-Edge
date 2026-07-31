@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
-
+import hashlib
 from app.database import engine, Base, get_db
 from app import models, schemas
 
@@ -51,17 +51,44 @@ async def upload_firmware(
     db: Session = Depends(get_db)
 ):
 
+    content = await file.read()
+
+    # Verify the caller's claimed hash against the bytes actually received —
+    # never trust a client-supplied hash. This is what let placeholder/
+    # mismatched uploads silently get stored and served to devices as if
+    # they were legitimate.
+    actual_hash = hashlib.sha256(content).hexdigest()
+    if actual_hash != sha256_hash:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                f"Rejected: sha256_hash provided ({sha256_hash}) does not match "
+                f"the actual uploaded file's hash ({actual_hash}). "
+                f"Re-sign the exact bytes you are uploading."
+            ),
+        )
+
+    # Basic sanity check on the signature field — catches obvious
+    # placeholder junk (e.g. Swagger's default "string") before it's stored.
+    try:
+        bytes.fromhex(signature_hex)
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail="Rejected: signature_hex is not valid hex — looks like a placeholder value.",
+        )
+
     filename = f"{version}_{build_number}.bin"
     #file_path = os.path.join(FIRMWARE_DIR, filename)
     file_path = os.path.join(FIRMWARE_DIR, f"{version}-build{build_number}.bin")
 
     with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+        buffer.write(content)
 
     firmware = models.FirmwareRelease(
         version=version,
         build_number=build_number,
-        sha256_hash=sha256_hash,
+        sha256_hash=actual_hash,   # store what we verified, not what was claimed
         signature_hex=signature_hex,
         file_path=file_path
     )

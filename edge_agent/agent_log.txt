@@ -1,0 +1,75 @@
+[2026-07-31T22:14:35.908498] [INFO] No update available.
+[2026-07-31T22:20:43.174937] [INFO] Update available: 1.0.0 (build 12)
+[2026-07-31T22:20:43.572201] [CRITICAL] Hash mismatch — firmware corrupted or tampered. Dropping payload.
+[2026-07-31T22:20:43.578163] [INFO] Payload discarded, not written to device storage.
+[2026-07-31T22:20:44.037660] [INFO] Reported status to backend: hash_fail
+[2026-07-31T22:24:38.904549] [INFO] Update available: 1.0.0 (build 13)
+[2026-07-31T22:24:39.249045] [CRITICAL] Hash mismatch — firmware corrupted or tampered. Dropping payload.
+[2026-07-31T22:24:39.251594] [INFO] Payload discarded, not written to device storage.
+[2026-07-31T22:24:39.730661] [INFO] Reported status to backend: hash_fail
+[2026-07-31T22:27:45.952067] [INFO] Update available: 1.0.0 (build 13)
+[2026-07-31T22:27:46.401746] [CRITICAL] Hash mismatch — firmware corrupted or tampered. Dropping payload.
+[2026-07-31T22:27:46.403845] [INFO] Payload discarded, not written to device storage.
+[2026-07-31T22:27:46.835611] [INFO] Reported status to backend: hash_fail
+[2026-07-31T22:28:38.338607] [INFO] Update available: 1.0.0 (build 13)
+[2026-07-31T22:28:38.697640] [CRITICAL] Hash mismatch — firmware corrupted or tampered. Dropping payload.
+[2026-07-31T22:28:38.699976] [INFO] Payload discarded, not written to device storage.
+[2026-07-31T22:28:39.181988] [INFO] Reported status to backend: hash_fail
+[2026-07-31T22:31:17.318428] [INFO] Update available: 3.0.0 (build 100)
+[2026-07-31T22:33:17.929049] [INFO] Update available: 3.0.0 (build 100)
+[2026-07-31T22:33:54.558197] [INFO] Update available: 3.0.0 (build 100)
+[2026-07-31T22:39:44.378364] [INFO] =======================================================
+[2026-07-31T22:39:44.380497] [INFO] EDGE DEVICE OTA UPDATE STARTED
+[2026-07-31T22:39:44.382890] [INFO] =======================================================
+[2026-07-31T22:39:45.235556] [INFO] Latest Version : 3.0.0
+[2026-07-31T22:39:45.237904] [INFO] Latest Build   : 100
+[2026-07-31T22:39:45.240556] [INFO] Downloading firmware...
+[2026-07-31T22:39:46.017725] [INFO] Calculated SHA256 : 735b71422a559c74fc11c8267c65d34794c6a57729c350fd07a62fc71af6fb17
+[2026-07-31T22:39:46.018725] [INFO] Expected SHA256   : 735b71422a559c74fc11c8267c65d34794c6a57729c350fd07a62fc71af6fb17
+[2026-07-31T22:39:46.022307] [INFO] SHA256 Verification Passed
+[2026-07-31T22:39:46.045919] [CRITICAL] Unexpected Error : ECPublicKey.verify() takes 3 positional arguments but 4 were given
+[2026-07-31T22:41:01.490319] [INFO] =======================================================
+[2026-07-31T22:41:01.492739] [INFO] EDGE DEVICE OTA UPDATE STARTED
+[2026-07-31T22:41:01.494253] [INFO] =======================================================
+[2026-07-31T22:41:02.346638] [INFO] Latest Version : 3.0.0
+[2026-07-31T22:41:02.348515] [INFO] Latest Build   : 100
+[2026-07-31T22:41:02.349506] [INFO] Downloading firmware...
+[2026-07-31T22:41:03.131095] [INFO] Calculated SHA256 : 735b71422a559c74fc11c8267c65d34794c6a57729c350fd07a62fc71af6fb17
+[2026-07-31T22:41:03.133213] [INFO] Expected SHA256   : 735b71422a559c74fc11c8267c65d34794c6a57729c350fd07a62fc71af6fb17
+[2026-07-31T22:41:03.134211] [INFO] SHA256 Verification Passed
+[2026-07-31T22:41:03.134730] [CRITICAL] Unexpected Error : [Errno 2] No such file or directory: 'public_key.pem'
+[2026-07-31T22:43:32.232602] [INFO] =======================================================
+[2026-07-31T22:43:32.235131] [INFO] EDGE DEVICE OTA UPDATE STARTED
+[2026-07-31T22:43:32.237430] [INFO] =======================================================
+[2026-07-31T22:43:32.681876] [INFO] Latest Version : 3.0.0
+[2026-07-31T22:43:32.682951] [INFO] Latest Build   : 100
+[2026-07-31T22:43:32.683460] [INFO] Downloading firmware...
+[2026-07-31T22:43:33.457445] [INFO] Calculated SHA256 : 735b71422a559c74fc11c8267c65d34794c6a57729c350fd07a62fc71af6fb17
+[2026-07-31T22:43:33.459647] [INFO] Expected SHA256   : 735b71422a559c74fc11c8267c65d34794c6a57729c350fd07a62fc71af6fb17
+[2026-07-31T22:43:33.461646] [INFO] SHA256 Verification Passed
+[2026-07-31T22:43:33.514267] [CRITICAL] INVALID RSA SIGNATURE!
+[2026-07-31T22:43:33.515530] [WARNING] Payload discarded successfully.
+[2026-07-31T22:43:33.885397] [INFO] Reported status: signature_fail
+[2026-07-31T23:09:24.798808] [INFO] =======================================================
+[2026-07-31T23:09:24.801276] [INFO] EDGE DEVICE OTA UPDATE STARTED
+[2026-07-31T23:09:24.801276] [INFO] =======================================================
+[2026-07-31T23:09:28.461359] [CRITICAL] Unexpected Error : 404 Client Error: Not Found for url: https://logistics-iot-edge.onrender.com/devices/device-001/check-update
+[2026-07-31T23:12:54.326384] [INFO] =======================================================
+[2026-07-31T23:12:54.327391] [INFO] EDGE DEVICE OTA UPDATE STARTED
+[2026-07-31T23:12:54.328392] [INFO] =======================================================
+[2026-07-31T23:12:55.012248] [INFO] Latest Version : 3.0.0
+[2026-07-31T23:12:55.013253] [INFO] Latest Build   : 101
+[2026-07-31T23:12:55.013253] [INFO] Downloading firmware...
+[2026-07-31T23:12:55.829390] [INFO] Calculated SHA256 : 735b71422a559c74fc11c8267c65d34794c6a57729c350fd07a62fc71af6fb17
+[2026-07-31T23:12:55.830493] [INFO] Expected SHA256   : 735b71422a559c74fc11c8267c65d34794c6a57729c350fd07a62fc71af6fb17
+[2026-07-31T23:12:55.830493] [INFO] SHA256 Verification Passed
+[2026-07-31T23:12:55.842615] [INFO] RSA Signature Verification Passed
+[2026-07-31T23:12:55.843617] [INFO] Installing firmware...
+[2026-07-31T23:12:57.855595] [INFO] Firmware written successfully.
+[2026-07-31T23:12:58.869055] [INFO] Rebooting device...
+[2026-07-31T23:13:00.881973] [INFO] Device reboot completed.
+[2026-07-31T23:13:00.883528] [INFO] OTA Update Successful
+[2026-07-31T23:13:02.214651] [INFO] Reported status: success
+[2026-07-31T23:13:02.215669] [INFO] =======================================================
+[2026-07-31T23:13:02.216573] [INFO] OTA UPDATE COMPLETED SUCCESSFULLY
+[2026-07-31T23:13:02.216573] [INFO] =======================================================

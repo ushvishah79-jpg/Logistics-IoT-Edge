@@ -14,3 +14,4 @@ cryptography/test_firmware.bin
 
 # Temporary files
 *.log
+*.db

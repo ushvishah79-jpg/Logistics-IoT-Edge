@@ -7,6 +7,12 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.exceptions import InvalidSignature
 
+from version_manager import (
+    get_current_build,
+    save_version,
+    is_rollback
+)
+
 BASE_URL = "https://logistics-iot-edge.onrender.com"
 DEVICE_ID = "device-001"
 
@@ -19,6 +25,7 @@ LOG_FILE = "agent_log.txt"
 # ----------------------------------------------------
 
 def log_event(message, level="INFO"):
+
     timestamp = datetime.now().isoformat()
 
     line = f"[{timestamp}] [{level}] {message}"
@@ -30,7 +37,7 @@ def log_event(message, level="INFO"):
 
 
 # ----------------------------------------------------
-# Report status to backend
+# Backend Status
 # ----------------------------------------------------
 
 def report_status(firmware_id, status):
@@ -38,25 +45,28 @@ def report_status(firmware_id, status):
     try:
 
         requests.post(
+
             f"{BASE_URL}/devices/{DEVICE_ID}/report",
+
             params={
                 "firmware_id": firmware_id,
                 "status": status
             }
+
         )
 
-        log_event(f"Reported status: {status}")
+        log_event(f"Reported status : {status}")
 
     except Exception as e:
 
         log_event(
-            f"Unable to report status: {e}",
+            f"Unable to report status : {e}",
             level="WARNING"
         )
 
 
 # ----------------------------------------------------
-# Reject firmware
+# Reject Payload
 # ----------------------------------------------------
 
 def drop_payload(payload):
@@ -64,7 +74,7 @@ def drop_payload(payload):
     del payload
 
     log_event(
-        "Payload discarded successfully.",
+        "Payload discarded.",
         level="WARNING"
     )
 
@@ -73,7 +83,7 @@ def drop_payload(payload):
 # Mock Installation
 # ----------------------------------------------------
 
-def mock_install(payload):
+def mock_install():
 
     log_event("Installing firmware...")
 
@@ -93,18 +103,18 @@ def mock_install(payload):
 
 
 # ----------------------------------------------------
-# Main OTA Flow
+# OTA Flow
 # ----------------------------------------------------
 
 def check_and_install_update():
 
-    log_event("=" * 55)
+    log_event("=" * 60)
     log_event("EDGE DEVICE OTA UPDATE STARTED")
-    log_event("=" * 55)
+    log_event("=" * 60)
 
-    # -------------------------------
-    # Check update
-    # -------------------------------
+    # ---------------------------------------
+    # Check Update
+    # ---------------------------------------
 
     response = requests.get(
         f"{BASE_URL}/devices/{DEVICE_ID}/check-update"
@@ -114,54 +124,50 @@ def check_and_install_update():
 
     update = response.json()
 
-    if not update.get("update_available"):
+    if not update["update_available"]:
 
-        log_event("No firmware update available.")
+        log_event("No Update Available")
 
         return
 
-    log_event(
-        f"Latest Version : {update['latest_version']}"
-    )
+    latest_version = update["latest_version"]
+    latest_build = update["latest_build_number"]
 
-    log_event(
-        f"Latest Build   : {update['latest_build_number']}"
-    )
+    log_event(f"Latest Version : {latest_version}")
+    log_event(f"Latest Build   : {latest_build}")
 
-    # -------------------------------
+    # ---------------------------------------
     # Download Firmware
-    # -------------------------------
+    # ---------------------------------------
 
-    download_url = BASE_URL + update["download_url"]
+    log_event("Downloading firmware...")
 
-    log_event(f"Downloading firmware...")
+    fw = requests.get(
+        BASE_URL + update["download_url"]
+    )
 
-    firmware_response = requests.get(download_url)
+    fw.raise_for_status()
 
-    firmware_response.raise_for_status()
+    firmware = fw.content
 
-    firmware_bytes = firmware_response.content
-
-    # -------------------------------
-    # SHA-256 Verification
-    # -------------------------------
+    # ---------------------------------------
+    # SHA256 Verification
+    # ---------------------------------------
 
     calculated_hash = hashlib.sha256(
-        firmware_bytes
+        firmware
     ).hexdigest()
 
     log_event(f"Calculated SHA256 : {calculated_hash}")
 
-    log_event(f"Expected SHA256   : {update['sha256_hash']}")
-
     if calculated_hash != update["sha256_hash"]:
 
         log_event(
-            "SHA256 HASH MISMATCH!",
+            "SHA256 Verification FAILED",
             level="CRITICAL"
         )
 
-        drop_payload(firmware_bytes)
+        drop_payload(firmware)
 
         report_status(
             update["firmware_id"],
@@ -172,9 +178,9 @@ def check_and_install_update():
 
     log_event("SHA256 Verification Passed")
 
-    # -------------------------------
-    # RSA Signature Verification
-    # -------------------------------
+    # ---------------------------------------
+    # RSA Verification
+    # ---------------------------------------
 
     with open(PUBLIC_KEY_PATH, "rb") as f:
 
@@ -190,7 +196,7 @@ def check_and_install_update():
                 update["signature_hex"]
             ),
 
-            firmware_bytes,
+            firmware,
 
             padding.PKCS1v15(),
 
@@ -205,11 +211,11 @@ def check_and_install_update():
     except InvalidSignature:
 
         log_event(
-            "INVALID RSA SIGNATURE!",
+            "INVALID RSA SIGNATURE",
             level="CRITICAL"
         )
 
-        drop_payload(firmware_bytes)
+        drop_payload(firmware)
 
         report_status(
             update["firmware_id"],
@@ -218,20 +224,49 @@ def check_and_install_update():
 
         return
 
-    # -------------------------------
-    # Install
-    # -------------------------------
+    # ---------------------------------------
+    # Anti Rollback
+    # ---------------------------------------
 
-    mock_install(firmware_bytes)
+    current_build = get_current_build()
+
+    log_event(f"Current Build : {current_build}")
+
+    if is_rollback(latest_build):
+
+        log_event(
+            "ROLLBACK ATTACK DETECTED",
+            level="CRITICAL"
+        )
+
+        report_status(
+            update["firmware_id"],
+            "rollback_blocked"
+        )
+
+        return
+
+    log_event("Rollback Protection Passed")
+
+    # ---------------------------------------
+    # Install
+    # ---------------------------------------
+
+    mock_install()
+
+    save_version(
+        latest_version,
+        latest_build
+    )
 
     report_status(
         update["firmware_id"],
         "success"
     )
 
-    log_event("=" * 55)
+    log_event("=" * 60)
     log_event("OTA UPDATE COMPLETED SUCCESSFULLY")
-    log_event("=" * 55)
+    log_event("=" * 60)
 
 
 # ----------------------------------------------------

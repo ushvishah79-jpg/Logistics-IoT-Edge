@@ -250,26 +250,50 @@ def report_update_status(
     if not device:
         raise HTTPException(status_code=404, detail="Device not registered")
 
+    firmware = (
+        db.query(models.FirmwareRelease)
+        .filter(models.FirmwareRelease.id == firmware_id)
+        .first()
+    )
+
+    # ------------------------------------------------------------
+    # Anti-rollback enforcement (Week 4)
+    #
+    # check-update already refuses to OFFER an older build, but this
+    # endpoint previously had no check at all on what it accepted as
+    # a completed install. A client (attacker, buggy device, or manual
+    # test) could report success on an old firmware_id and silently
+    # move the device's recorded version backward. This block closes
+    # that gap by rejecting any "success" report whose build_number is
+    # not strictly newer than what the device already has on record.
+    # ------------------------------------------------------------
+    if status == "success" and firmware:
+        if firmware.build_number <= device.current_build_number:
+            log = models.UpdateLog(
+                device_id=device_id,
+                firmware_id=firmware_id,
+                status="rollback_blocked"
+            )
+            db.add(log)
+            db.commit()
+            raise HTTPException(
+                status_code=403,
+                detail=(
+                    f"Rollback attempt blocked: reported build_number "
+                    f"({firmware.build_number}) is not newer than device's "
+                    f"current build_number ({device.current_build_number})."
+                )
+            )
+
+        device.current_version = firmware.version
+        device.current_build_number = firmware.build_number
+
     log = models.UpdateLog(
         device_id=device_id,
         firmware_id=firmware_id,
         status=status
     )
-
     db.add(log)
-
-    if status == "success":
-
-        firmware = (
-            db.query(models.FirmwareRelease)
-            .filter(models.FirmwareRelease.id == firmware_id)
-            .first()
-        )
-
-        if firmware:
-            device.current_version = firmware.version
-            device.current_build_number = firmware.build_number
-
     db.commit()
 
     return {

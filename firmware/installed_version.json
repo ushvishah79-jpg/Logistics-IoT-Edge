@@ -1,7 +1,7 @@
 {
-  "version": "13.0.0",
-  "firmware_path": "C:\\Users\\Ushvi\\project1\\Logistics-IoT-Edge\\tests\\..\\edge_agent\\..\\firmware\\firmware_v13.0.0.bin",
-  "installed_at": "2026-08-03T11:32:48.173650",
-  "install_time_ms": 1.29,
+  "version": "20.0.0",
+  "firmware_path": "C:\\Users\\Ushvi\\project1\\Logistics-IoT-Edge\\edge_agent\\..\\firmware\\firmware_v1.0.0.bin",
+  "installed_at": "2026-08-03T11:36:46.006136",
+  "install_time_ms": 2.78,
   "status": "installed"
 }

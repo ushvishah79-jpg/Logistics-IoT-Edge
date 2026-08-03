@@ -20,7 +20,7 @@ def get_installed_version() -> str:
     return "0.0.0"
 
 
-def save_installed_version(version: str, firmware_path: str, install_time_ms: float = 0):
+def save_installed_version(version: str, firmware_path: str, install_time_ms: float):
     data = {
         "version": version,
         "firmware_path": firmware_path,
@@ -28,7 +28,6 @@ def save_installed_version(version: str, firmware_path: str, install_time_ms: fl
         "install_time_ms": round(install_time_ms, 2),
         "status": "installed"
     }
-    os.makedirs(os.path.dirname(VERSION_FILE), exist_ok=True)
     with open(VERSION_FILE, "w") as f:
         json.dump(data, f, indent=2)
 
@@ -78,7 +77,7 @@ def simulate_installation(firmware_path: str, version: str) -> bool:
     log_info("Step 5: Triggering mock device reboot...")
     log_success("="*45)
     log_success(f"Firmware v{version} INSTALLED SUCCESSFULLY!")
-    log_success(f"Completed in {install_time_ms:.2f}ms")
+    log_success(f"Installation completed in {install_time_ms:.2f}ms")
     log_success("="*45)
 
     return True
@@ -94,8 +93,9 @@ def reject_firmware(reason: str):
 
 
 if __name__ == "__main__":
-    print("\n--- Installer Test ---")
     firmware_dir = os.path.join(os.path.dirname(__file__), "..", "firmware")
     firmware_path = os.path.join(firmware_dir, "firmware_v1.0.0.bin")
-    result = simulate_installation(firmware_path, "99.0.0")
-    print(f"Result: {'INSTALLED' if result else 'FAILED'}")
+
+    print("\n--- Performance Test ---")
+    result = simulate_installation(firmware_path, "20.0.0")
+    print(f"Result: {'✓ INSTALLED' if result else '✗ FAILED'}")

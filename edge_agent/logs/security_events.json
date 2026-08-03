@@ -1,0 +1,12 @@
+[
+  {
+    "timestamp": "2026-08-03T11:36:53.878265",
+    "level": "CRITICAL",
+    "message": "ANTI-ROLLBACK TRIGGERED! v20.0.0 is older than v20.0.0"
+  },
+  {
+    "timestamp": "2026-08-03T11:36:53.879310",
+    "level": "CRITICAL",
+    "message": "Installation BLOCKED \u2014 Possible rollback attack!"
+  }
+]

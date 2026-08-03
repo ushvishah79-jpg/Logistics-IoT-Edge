@@ -1,12 +1,122 @@
 [
   {
-    "timestamp": "2026-08-03T11:36:53.878265",
+    "timestamp": "2026-08-03T20:28:47.923922",
     "level": "CRITICAL",
-    "message": "ANTI-ROLLBACK TRIGGERED! v20.0.0 is older than v20.0.0"
+    "message": "ANTI-ROLLBACK TRIGGERED! v3.0.0 is older than v20.0.0"
   },
   {
-    "timestamp": "2026-08-03T11:36:53.879310",
+    "timestamp": "2026-08-03T20:28:47.924686",
     "level": "CRITICAL",
     "message": "Installation BLOCKED \u2014 Possible rollback attack!"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.925354",
+    "level": "CRITICAL",
+    "message": "============================================="
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.925881",
+    "level": "CRITICAL",
+    "message": "  FIRMWARE REJECTED"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.926450",
+    "level": "CRITICAL",
+    "message": "============================================="
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.926930",
+    "level": "CRITICAL",
+    "message": "Reason: Blocked by anti-rollback protection"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.927498",
+    "level": "CRITICAL",
+    "message": "Device remains on current firmware \u2014 safe!"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.928175",
+    "level": "CRITICAL",
+    "message": "============================================="
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.935306",
+    "level": "CRITICAL",
+    "message": "ANTI-ROLLBACK TRIGGERED! v4.0.0 is older than v20.0.0"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.936305",
+    "level": "CRITICAL",
+    "message": "Installation BLOCKED \u2014 Possible rollback attack!"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.937405",
+    "level": "CRITICAL",
+    "message": "============================================="
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.938622",
+    "level": "CRITICAL",
+    "message": "  FIRMWARE REJECTED"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.939819",
+    "level": "CRITICAL",
+    "message": "============================================="
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.940635",
+    "level": "CRITICAL",
+    "message": "Reason: Blocked by anti-rollback protection"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.941293",
+    "level": "CRITICAL",
+    "message": "Device remains on current firmware \u2014 safe!"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.941943",
+    "level": "CRITICAL",
+    "message": "============================================="
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.947629",
+    "level": "CRITICAL",
+    "message": "ANTI-ROLLBACK TRIGGERED! v0.1.0 is older than v20.0.0"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.948273",
+    "level": "CRITICAL",
+    "message": "Installation BLOCKED \u2014 Possible rollback attack!"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.948907",
+    "level": "CRITICAL",
+    "message": "============================================="
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.949495",
+    "level": "CRITICAL",
+    "message": "  FIRMWARE REJECTED"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.950392",
+    "level": "CRITICAL",
+    "message": "============================================="
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.951442",
+    "level": "CRITICAL",
+    "message": "Reason: Blocked by anti-rollback protection"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.952177",
+    "level": "CRITICAL",
+    "message": "Device remains on current firmware \u2014 safe!"
+  },
+  {
+    "timestamp": "2026-08-03T20:28:47.953116",
+    "level": "CRITICAL",
+    "message": "============================================="
   }
 ]

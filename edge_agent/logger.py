@@ -20,7 +20,6 @@ logging.basicConfig(
 
 logger = logging.getLogger("EdgeAgent")
 
-# Security events track karo
 security_events = []
 
 
@@ -47,7 +46,6 @@ def log_success(msg):
 
 
 def _save_security_log():
-    """Security events JSON file mein save karo"""
     try:
         security_log_path = os.path.join("logs", "security_events.json")
         with open(security_log_path, "w") as f:
@@ -57,7 +55,6 @@ def _save_security_log():
 
 
 def get_security_summary() -> dict:
-    """Security events ka summary do"""
     return {
         "total_events": len(security_events),
         "events": security_events
@@ -65,8 +62,8 @@ def get_security_summary() -> dict:
 
 
 if __name__ == "__main__":
-    log_info("Logger initialized with security event tracking")
+    log_info("Logger initialized")
     log_warning("Test warning")
-    log_critical("Test security alert — tampered firmware")
+    log_critical("Test security alert")
     log_success("Test success")
-    print(f"\nSecurity summary: {get_security_summary()}")
+    print(f"Security summary: {get_security_summary()}")

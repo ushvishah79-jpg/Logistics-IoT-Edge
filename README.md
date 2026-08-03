@@ -101,3 +101,13 @@ python test_full_pipeline.py
 - Week 2: Full pipeline + Anti-rollback + Mock server ✅
 - Week 3: Digital signature + Error handling + Final tests ✅
 - Week 4: Documentation + Integration ready ✅
+---
+
+## Contributors
+
+| Member | Role | Module |
+|--------|------|--------|
+| Member A | Crypto/PKI Lead | Key generation, signing |
+| Member B | Backend & CI/CD Lead | FastAPI, database, pipeline |
+| Member C (Ushvi) | Edge Agent Lead | Download, verify, install |
+| Member D | Security & QA Lead | Threat model, testing |

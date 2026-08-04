@@ -80,7 +80,12 @@ async def upload_firmware(
 
     filename = f"{version}_{build_number}.bin"
     #file_path = os.path.join(FIRMWARE_DIR, filename)
-    file_path = os.path.join(FIRMWARE_DIR, f"{version}-build{build_number}.bin")
+    file_path = os.path.join(
+    "..",
+    "firmware_storage",
+    f"{version}.bin"
+)
+    #file_path = os.path.join(FIRMWARE_DIR, f"{version}-build{build_number}.bin")
 
     with open(file_path, "wb") as buffer:
         buffer.write(content)
@@ -233,6 +238,7 @@ def check_update(device_id: str, db: Session = Depends(get_db)):
 # Report Update Status
 # ---------------------------------------------------
 
+
 @app.post("/devices/{device_id}/report")
 def report_update_status(
     device_id: str,
@@ -322,3 +328,53 @@ def get_logs(db: Session = Depends(get_db)):
         }
         for log in logs
     ]
+
+# ---------------------------------------------------
+# Device Update History (Week 4 - Day 2)
+# ---------------------------------------------------
+
+@app.get("/devices/{device_id}/history")
+def device_history(device_id: str, db: Session = Depends(get_db)):
+
+    # Check whether the device exists
+    device = (
+        db.query(models.Device)
+        .filter(models.Device.device_id == device_id)
+        .first()
+    )
+
+    if not device:
+        raise HTTPException(
+            status_code=404,
+            detail="Device not registered"
+        )
+
+    # Get update history
+    logs = (
+        db.query(models.UpdateLog)
+        .filter(models.UpdateLog.device_id == device_id)
+        .order_by(models.UpdateLog.timestamp.desc())
+        .all()
+    )
+
+    history = []
+
+    for log in logs:
+
+        firmware = (
+            db.query(models.FirmwareRelease)
+            .filter(models.FirmwareRelease.id == log.firmware_id)
+            .first()
+        )
+
+        history.append(
+            {
+                "timestamp": log.timestamp,
+                "device_id": log.device_id,
+                "status": log.status,
+                "firmware_version": firmware.version if firmware else None,
+                "build_number": firmware.build_number if firmware else None
+            }
+        )
+
+    return history

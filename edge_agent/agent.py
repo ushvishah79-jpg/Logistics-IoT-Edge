@@ -2,6 +2,7 @@ import requests
 import hashlib
 import time
 from datetime import datetime
+from audit_logger import save_history
 
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import serialization, hashes
@@ -14,7 +15,7 @@ from version_manager import (
 )
 
 BASE_URL = "https://logistics-iot-edge.onrender.com"
-DEVICE_ID = "device-001"
+DEVICE_ID = "device_002"
 
 PUBLIC_KEY_PATH = "device_public.pem"
 LOG_FILE = "agent_log.txt"
@@ -169,10 +170,25 @@ def check_and_install_update():
 
         drop_payload(firmware)
 
-        report_status(
-            update["firmware_id"],
-            "hash_fail"
+        save_history(
+
+            latest_version,
+
+            latest_build,
+
+            "hash_fail",
+
+            "SHA256 verification failed"
+
         )
+
+        report_status(
+
+            update["firmware_id"],
+
+            "hash_fail"
+
+            )
 
         return
 
@@ -217,9 +233,24 @@ def check_and_install_update():
 
         drop_payload(firmware)
 
+        save_history(
+
+            latest_version,
+
+            latest_build,
+
+            "signature_fail",
+
+            "RSA signature invalid"
+
+        )
+
         report_status(
+
             update["firmware_id"],
+
             "signature_fail"
+
         )
 
         return
@@ -239,9 +270,24 @@ def check_and_install_update():
             level="CRITICAL"
         )
 
+        save_history(
+
+            latest_version,
+
+            latest_build,
+
+            "rollback_blocked",
+
+            "Older or same firmware blocked"
+
+        )
+
         report_status(
+
             update["firmware_id"],
+
             "rollback_blocked"
+
         )
 
         return
@@ -259,11 +305,25 @@ def check_and_install_update():
         latest_build
     )
 
-    report_status(
-        update["firmware_id"],
-        "success"
-    )
+    save_history(
 
+            latest_version,
+
+            latest_build,
+
+            "success",
+
+            "Firmware installed successfully"
+
+        )
+
+    report_status(
+
+            update["firmware_id"],
+
+            "success"
+
+        )
     log_event("=" * 60)
     log_event("OTA UPDATE COMPLETED SUCCESSFULLY")
     log_event("=" * 60)

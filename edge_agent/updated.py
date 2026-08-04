@@ -11,7 +11,7 @@ VERSION = "3.0.0"
 BUILD_NUMBER = 101
 
 # ----------------------------------------------------
-# Use Existing Vendor RSA Private Key
+# Load Vendor RSA Private Key
 # ----------------------------------------------------
 
 PRIVATE_KEY_PATH = os.path.join(
@@ -27,7 +27,7 @@ with open(PRIVATE_KEY_PATH, "rb") as f:
         password=None
     )
 
-print("Vendor RSA Private Key Loaded")
+print("[✓] Vendor RSA Private Key Loaded")
 
 # ----------------------------------------------------
 # Create Firmware
@@ -40,7 +40,7 @@ FIRMWARE_FILE = "real_firmware.bin"
 with open(FIRMWARE_FILE, "wb") as f:
     f.write(firmware_bytes)
 
-print("Firmware Created")
+print("[✓] Firmware Created")
 
 # ----------------------------------------------------
 # SHA-256 Hash
@@ -48,7 +48,7 @@ print("Firmware Created")
 
 sha256_hash = hashlib.sha256(firmware_bytes).hexdigest()
 
-print("SHA256 :", sha256_hash)
+print("[✓] SHA256 :", sha256_hash)
 
 # ----------------------------------------------------
 # RSA Signature
@@ -62,38 +62,70 @@ signature = private_key.sign(
 
 signature_hex = signature.hex()
 
-print("RSA Signature Generated")
+print("[✓] RSA Signature Generated")
 
 # ----------------------------------------------------
 # Upload Firmware
 # ----------------------------------------------------
 
+url = f"{BASE_URL}/firmware/upload"
+
+print(f"\nUploading to : {url}")
+
 with open(FIRMWARE_FILE, "rb") as firmware:
 
-    response = requests.post(
+    try:
 
-        f"{BASE_URL}/firmware/upload",
+        response = requests.post(
 
-        data={
-            "version": VERSION,
-            "build_number": BUILD_NUMBER,
-            "sha256_hash": sha256_hash,
-            "signature_hex": signature_hex
-        },
+            url,
 
-        files={
-            "file": (
-                FIRMWARE_FILE,
-                firmware,
-                "application/octet-stream"
-            )
-        }
+            data={
+                "version": VERSION,
+                "build_number": BUILD_NUMBER,
+                "sha256_hash": sha256_hash,
+                "signature_hex": signature_hex
+            },
 
-    )
+            files={
+                "file": (
+                    FIRMWARE_FILE,
+                    firmware,
+                    "application/octet-stream"
+                )
+            },
 
-print("\nUpload Status :", response.status_code)
+            timeout=30
 
-try:
-    print(response.json())
-except Exception:
-    print(response.text)
+        )
+
+        print("\n==============================")
+        print("HTTP Status :", response.status_code)
+        print("==============================")
+
+        try:
+            print(response.json())
+        except Exception:
+            print(response.text)
+
+        response.raise_for_status()
+
+        print("\n✓ Firmware uploaded successfully.")
+
+    except requests.exceptions.HTTPError as e:
+
+        print("\nHTTP ERROR")
+        print(e)
+
+        print("\nResponse Body:")
+        print(response.text)
+
+    except requests.exceptions.RequestException as e:
+
+        print("\nRequest Failed")
+        print(e)
+
+    except Exception as e:
+
+        print("\nUnexpected Error")
+        print(e)

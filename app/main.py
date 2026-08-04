@@ -6,7 +6,7 @@ from app.database import engine, Base, get_db
 from app import models, schemas
 
 import os
-import shutil
+
 
 Base.metadata.create_all(bind=engine)
 
@@ -41,6 +41,10 @@ def health_check():
 # Upload Firmware
 # ---------------------------------------------------
 
+# ---------------------------------------------------
+# Upload Firmware
+# ---------------------------------------------------
+
 @app.post("/firmware/upload", response_model=schemas.FirmwareReleaseOut)
 async def upload_firmware(
     version: str = Form(...),
@@ -53,57 +57,75 @@ async def upload_firmware(
 
     content = await file.read()
 
-    # Verify the caller's claimed hash against the bytes actually received —
-    # never trust a client-supplied hash. This is what let placeholder/
-    # mismatched uploads silently get stored and served to devices as if
-    # they were legitimate.
+    # -----------------------------
+    # Verify SHA256
+    # -----------------------------
+
     actual_hash = hashlib.sha256(content).hexdigest()
+
     if actual_hash != sha256_hash:
+
         raise HTTPException(
             status_code=400,
-            detail=(
-                f"Rejected: sha256_hash provided ({sha256_hash}) does not match "
-                f"the actual uploaded file's hash ({actual_hash}). "
-                f"Re-sign the exact bytes you are uploading."
-            ),
+            detail="SHA256 hash mismatch"
         )
 
-    # Basic sanity check on the signature field — catches obvious
-    # placeholder junk (e.g. Swagger's default "string") before it's stored.
+    # -----------------------------
+    # Verify Signature Format
+    # -----------------------------
+
     try:
         bytes.fromhex(signature_hex)
+
     except ValueError:
+
         raise HTTPException(
             status_code=400,
-            detail="Rejected: signature_hex is not valid hex — looks like a placeholder value.",
+            detail="Invalid signature format"
         )
 
-    filename = f"{version}_{build_number}.bin"
-    #file_path = os.path.join(FIRMWARE_DIR, filename)
+    # -----------------------------
+    # Save Firmware
+    # -----------------------------
+
+    filename = f"{version}-build{build_number}.bin"
+
     file_path = os.path.join(
-    "..",
-    "firmware_storage",
-    f"{version}.bin"
-)
-    #file_path = os.path.join(FIRMWARE_DIR, f"{version}-build{build_number}.bin")
+        FIRMWARE_DIR,
+        filename
+    )
+
+    # Make sure directory exists
+    os.makedirs(FIRMWARE_DIR, exist_ok=True)
 
     with open(file_path, "wb") as buffer:
         buffer.write(content)
 
+    # -----------------------------
+    # Save Database Record
+    # -----------------------------
+
     firmware = models.FirmwareRelease(
+
         version=version,
+
         build_number=build_number,
-        sha256_hash=actual_hash,   # store what we verified, not what was claimed
+
+        sha256_hash=actual_hash,
+
         signature_hex=signature_hex,
+
         file_path=file_path
+
     )
 
     db.add(firmware)
+
     db.commit()
+
     db.refresh(firmware)
 
     return firmware
-
 
 # ---------------------------------------------------
 # Latest Firmware

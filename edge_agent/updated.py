@@ -7,8 +7,8 @@ from cryptography.hazmat.primitives.asymmetric import padding
 
 BASE_URL = "https://logistics-iot-edge.onrender.com"
 
-VERSION = "2.0.0"
-BUILD_NUMBER = 103
+VERSION = "3.0.0"
+BUILD_NUMBER = 101
 
 # ----------------------------------------------------
 # Use Existing Vendor RSA Private Key

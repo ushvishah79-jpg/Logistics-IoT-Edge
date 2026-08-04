@@ -1,0 +1,44 @@
+[
+    {
+        "timestamp": "2026-08-04T20:53:15.871423",
+        "version": "2.0.0",
+        "build_number": 103,
+        "status": "rollback_blocked",
+        "message": "Older or same firmware blocked"
+    },
+    {
+        "timestamp": "2026-08-04T20:54:06.173075",
+        "version": "2.0.0",
+        "build_number": 103,
+        "status": "rollback_blocked",
+        "message": "Older or same firmware blocked"
+    },
+    {
+        "timestamp": "2026-08-04T20:54:27.750299",
+        "version": "2.0.0",
+        "build_number": 103,
+        "status": "rollback_blocked",
+        "message": "Older or same firmware blocked"
+    },
+    {
+        "timestamp": "2026-08-04T20:54:48.209428",
+        "version": "2.0.0",
+        "build_number": 103,
+        "status": "rollback_blocked",
+        "message": "Older or same firmware blocked"
+    },
+    {
+        "timestamp": "2026-08-04T20:56:07.143696",
+        "version": "2.0.0",
+        "build_number": 103,
+        "status": "rollback_blocked",
+        "message": "Older or same firmware blocked"
+    },
+    {
+        "timestamp": "2026-08-04T20:56:14.810257",
+        "version": "2.0.0",
+        "build_number": 103,
+        "status": "rollback_blocked",
+        "message": "Older or same firmware blocked"
+    }
+]

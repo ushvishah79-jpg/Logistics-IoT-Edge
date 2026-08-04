@@ -43,7 +43,7 @@ def load_expected_hash(hash_file_path: str) -> str:
 
 def verify_hash():
 
-def verify_hash(firmware_path: str, expected_hash: str) -> bool:
+#def verify_hash(firmware_path: str, expected_hash: str) -> bool:
     log_info("="*45)
     log_info("  SHA-256 HASH VERIFICATION")
     log_info("="*45)

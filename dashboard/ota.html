@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Firmware Manifest — Inspection Terminal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #e3d8bd;
+    --paper-2: #eee5cd;
+    --paper-3: #f6efdc;
+    --rule: #b7a87c;
+    --rule-soft: #cfc39c;
+    --ink: #23324a;
+    --ink-soft: #5c6c86;
+    --ink-faint: #8b93a6;
+    --red: #9c3b2e;
+    --green: #2e6b4f;
+    --amber: #a8721f;
+    --font-stamp: 'Special Elite', monospace;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(35,50,74,0.04), transparent 45%),
+      radial-gradient(circle at 90% 80%, rgba(35,50,74,0.05), transparent 40%);
+    color: var(--ink);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    padding: 32px 18px 60px;
+  }
+
+  .wrap { max-width: 1160px; margin: 0 auto; }
+
+  /* ---------------- Manifest header / perforation ---------------- */
+
+  .perf {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 6px 10px;
+    overflow: hidden;
+  }
+  .perf span {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: 0 0 0 1.5px var(--rule);
+    flex-shrink: 0;
+  }
+
+  header {
+    background: var(--paper-3);
+    border: 1.5px solid var(--ink);
+    padding: 22px 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    position: relative;
+  }
+
+  .doc-title { display: flex; align-items: center; gap: 14px; }
+
+  .doc-mark {
+    width: 46px; height: 46px;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+  }
+
+  h1 {
+    font-family: var(--font-stamp);
+    font-weight: 400;
+    font-size: 22px;
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+  .doc-title p {
+    margin: 4px 0 0;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    letter-spacing: 0.03em;
+  }
+
+  .manifest-no {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .manifest-no b { color: var(--ink); font-size: 12px; }
+
+  .server-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-top: 8px;
+    padding: 4px 10px;
+    border: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--ink-soft);
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-faint); }
+  .dot.up { background: var(--green); }
+  .dot.down { background: var(--red); }
+  .dot.checking { background: var(--amber); animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* ---------------- Section shells ---------------- */
+
+  .sheet {
+    background: var(--paper-3);
+    border: 1.5px solid var(--ink);
+    border-top: none;
+    padding: 24px 26px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px dashed var(--rule);
+    margin: 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 0;
+  }
+  @media (max-width: 860px) {
+    .grid { grid-template-columns: 1fr; }
+    .grid > div:first-child { border-bottom: 1.5px dashed var(--rule); border-right: none !important; }
+  }
+  .grid > div:first-child { border-right: 1.5px dashed var(--rule); padding-right: 26px; }
+  .grid > div:last-child { padding-left: 26px; }
+
+  .field-block { padding: 22px 0; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 4px;
+  }
+  h2.section-title {
+    font-family: var(--font-stamp);
+    font-weight: 400;
+    font-size: 16px;
+    margin: 0 0 14px;
+  }
+  .sub {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin: -8px 0 16px;
+  }
+
+  label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 5px;
+  }
+
+  input[type="text"], textarea {
+    width: 100%;
+    background: var(--paper-2);
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    padding: 9px 10px;
+    font-size: 13px;
+    font-family: var(--font-mono);
+    margin-bottom: 14px;
+  }
+  textarea { resize: vertical; min-height: 92px; line-height: 1.45; }
+  input:focus, textarea:focus, button:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 1px;
+  }
+
+  button {
+    background: var(--paper-2);
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    padding: 9px 15px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  button:hover { background: var(--ink); color: var(--paper-3); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  button.primary { background: var(--ink); color: var(--paper-3); }
+  button.primary:hover { background: var(--red); border-color: var(--red); color: var(--paper-3); }
+  button.outline-red { border-color: var(--red); color: var(--red); }
+  button.outline-red:hover { background: var(--red); color: var(--paper-3); }
+
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+
+  .status-line {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    min-height: 15px;
+  }
+  .status-line.ok { color: var(--green); }
+  .status-line.err { color: var(--red); }
+
+  /* ---------------- Inspection checklist (pipeline) ---------------- */
+
+  .checklist { margin-bottom: 18px; }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 4px;
+    border-bottom: 1px dashed var(--rule-soft);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    transition: color 0.2s;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .box {
+    width: 17px; height: 17px;
+    border: 1.5px solid var(--ink-faint);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    transition: all 0.2s;
+  }
+  .check-item.active .box { border-color: var(--amber); color: var(--amber); }
+  .check-item.active { color: var(--amber); }
+  .check-item.pass .box { border-color: var(--green); background: var(--green); color: var(--paper-3); }
+  .check-item.pass { color: var(--green); }
+  .check-item.fail .box { border-color: var(--red); background: var(--red); color: var(--paper-3); }
+  .check-item.fail { color: var(--red); }
+  .check-item .code { color: var(--ink-faint); font-size: 10.5px; margin-right: 2px; }
+
+  /* ---------------- Stamp ---------------- */
+
+  .stamp-zone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 92px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .stamp {
+    font-family: var(--font-stamp);
+    font-size: 26px;
+    letter-spacing: 0.06em;
+    padding: 12px 30px;
+    border: 4px double var(--ink-faint);
+    color: var(--ink-faint);
+    opacity: 0;
+    transform: scale(1.6) rotate(-8deg);
+    transition: opacity 0.25s, transform 0.25s;
+  }
+  .stamp.show { opacity: 0.9; transform: scale(1) rotate(-8deg); }
+  .stamp.cleared { color: var(--green); border-color: var(--green); }
+  .stamp.rejected { color: var(--red); border-color: var(--red); }
+
+  /* ---------------- Ledger (terminal) ---------------- */
+
+  .ledger {
+    background: var(--paper-2);
+    border: 1px solid var(--ink);
+    padding: 12px 14px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    line-height: 1.85;
+    height: 220px;
+    overflow-y: auto;
+  }
+  .ledger .line { white-space: pre-wrap; word-break: break-all; border-bottom: 1px dotted var(--rule-soft); padding: 1px 0; }
+  .ledger .l-info { color: var(--ink-soft); }
+  .ledger .l-ok { color: var(--green); }
+  .ledger .l-warn { color: var(--amber); }
+  .ledger .l-err { color: var(--red); }
+  .ledger .l-muted { color: var(--ink-faint); border-bottom: none; }
+  .ledger::-webkit-scrollbar { width: 8px; }
+  .ledger::-webkit-scrollbar-thumb { background: var(--rule); }
+
+  /* ---------------- Tables ---------------- */
+
+  .table-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--ink-soft);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 8px 10px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+  td {
+    padding: 9px 10px;
+    border-bottom: 1px dashed var(--rule-soft);
+    font-family: var(--font-mono);
+    color: var(--ink);
+  }
+  tr:last-child td { border-bottom: none; }
+  .empty-row td { color: var(--ink-faint); text-align: center; padding: 22px; }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+  }
+  .tag.success { color: var(--green); border-color: var(--green); }
+  .tag.fail { color: var(--red); border-color: var(--red); }
+  .tag.other { color: var(--amber); border-color: var(--amber); }
+
+  footer {
+    text-align: center;
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    margin-top: 26px;
+  }
+
+  .hint {
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    margin-top: -8px;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .stack { margin-bottom: 26px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="perf">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="stack">
+    <header>
+      <div class="doc-title">
+        <div class="doc-mark">OTA<br>INSP</div>
+        <div>
+          <h1>Firmware Cargo Manifest</h1>
+          <p>SECURE OTA INSPECTION TERMINAL — LOGISTICS &amp; IoT EDGE DIVISION</p>
+          <div class="server-pill"><span class="dot checking" id="serverDot"></span><span id="serverText">checking server…</span></div>
+        </div>
+      </div>
+      <div class="manifest-no">
+        MANIFEST NO.<br><b>OTA-2026-0147</b><br>
+        <span style="opacity:0.7">issued at point of verification</span>
+      </div>
+    </header>
+
+    <div class="sheet grid">
+      <div>
+        <div class="field-block" style="padding-top:0">
+          <p class="eyebrow">Consignee</p>
+          <h2 class="section-title">Device registration</h2>
+          <p class="sub">Register the simulated edge device receiving this shipment.</p>
+
+          <label for="baseUrl">Depot server</label>
+          <input type="text" id="baseUrl" value="https://logistics-iot-edge.onrender.com">
+
+          <label for="deviceId">Device ID</label>
+          <input type="text" id="deviceId" value="device-001">
+
+          <div class="btn-row">
+            <button class="primary" id="registerBtn" style="width:100%">File registration</button>
+          </div>
+          <div class="status-line" id="registerStatus"></div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="field-block">
+          <p class="eyebrow">Key on file</p>
+          <h2 class="section-title">Consignee public key</h2>
+          <p class="sub">Kept in this browser only — represents the key burned into the device at manufacture. Nothing here is sent to the server.</p>
+          <textarea id="publicKey" placeholder="-----BEGIN PUBLIC KEY-----&#10;...&#10;-----END PUBLIC KEY-----"></textarea>
+          <div class="hint">RSA public key, PEM / SubjectPublicKeyInfo format.</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="field-block" style="padding-top:0">
+          <p class="eyebrow">Customs procedure</p>
+          <h2 class="section-title">Inspection checklist</h2>
+          <p class="sub">Runs the same procedure as <code>agent.py</code> — each item is checked live, in this browser, against the depot server.</p>
+
+          <div class="checklist">
+            <div class="check-item" data-step="download"><div class="box">□</div><span class="code">01</span> RECEIVE PACKAGE — download firmware from depot</div>
+            <div class="check-item" data-step="hash"><div class="box">□</div><span class="code">02</span> SEAL INTEGRITY — SHA-256 hash matches manifest</div>
+            <div class="check-item" data-step="sig"><div class="box">□</div><span class="code">03</span> CUSTOMS SIGNATURE — signature verifies against key on file</div>
+            <div class="check-item" data-step="rollback"><div class="box">□</div><span class="code">04</span> EXPIRY CHECK — not an outdated/rolled-back build</div>
+            <div class="check-item" data-step="install"><div class="box">□</div><span class="code">05</span> CLEARED FOR DELIVERY — mock install &amp; reboot</div>
+          </div>
+
+          <div class="btn-row">
+            <button class="primary" id="runBtn">Run inspection</button>
+            <button class="outline-red" id="tamperBtn">Simulate tampered seal</button>
+            <button class="outline-red" id="wrongKeyBtn">Simulate forged signature</button>
+            <button id="clearBtn">Reset terminal</button>
+          </div>
+        </div>
+
+        <div class="stamp-zone">
+          <div class="stamp" id="stamp">PENDING</div>
+        </div>
+
+        <div class="ledger" id="terminal">
+          <div class="line l-muted">&gt; awaiting inspection order…</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vendor / CI signing bench -->
+  <div class="stack">
+    <header style="padding: 16px 26px;">
+      <p class="eyebrow" style="margin:0">Vendor / CI bench — Week 2</p>
+      <h2 class="section-title" style="margin:2px 0 0">Sign &amp; ship a new firmware lot</h2>
+    </header>
+    <div class="sheet">
+      <p class="sub" style="margin-top:0">Simulates the CI/CD signing step — generates a throwaway RSA keypair in this browser, signs a firmware payload, and uploads it to the depot. <b>Demo only</b>: a real pipeline signs with a key from GitHub Secrets, never in a browser tab.</p>
+      <div class="grid" style="grid-template-columns: 1fr 1fr;">
+        <div style="padding-right:26px; border-right:1.5px dashed var(--rule);">
+          <label for="mfVersion">Firmware version</label>
+          <input type="text" id="mfVersion" value="6.0.0">
+          <label for="mfBuild">Build number</label>
+          <input type="text" id="mfBuild" value="1000">
+          <label for="mfPayload">Payload contents</label>
+          <textarea id="mfPayload" style="min-height:60px">REAL_FIRMWARE_PAYLOAD_v6.0.0</textarea>
+          <div class="btn-row">
+            <button id="genKeyBtn">Generate signing key</button>
+            <button class="primary" id="signUploadBtn">Sign &amp; upload lot</button>
+          </div>
+          <div class="status-line" id="signStatus"></div>
+        </div>
+        <div style="padding-left:26px;">
+          <label for="mfPublicKeyOut">Generated public key</label>
+          <textarea id="mfPublicKeyOut" readonly style="min-height:110px" placeholder="Click “Generate signing key” first…"></textarea>
+          <div class="hint">Also auto-copied into the "Consignee public key" box above, so the inspection panel can verify what this bench just signed.</div>
+        </div>
+      </div>
+
+      <hr class="divider" style="margin: 22px 0;">
+
+      <p class="eyebrow" style="margin:0">Anti-rollback — Week 4</p>
+      <h2 class="section-title" style="margin:6px 0 10px;">Attempt a manual downgrade</h2>
+      <p class="sub" style="margin-top:0">Simulates an attacker trying to force this device back onto an older build than the one it's already running.</p>
+      <div style="display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;">
+        <div style="flex:1; min-width:160px;">
+          <label for="rollbackAttempt">Attempted build number</label>
+          <input type="text" id="rollbackAttempt" value="0" style="margin-bottom:0;">
+        </div>
+        <button class="outline-red" id="rollbackBtn" style="margin-bottom:14px;">Attempt downgrade</button>
+      </div>
+      <div class="status-line" id="rollbackStatus">Device's last known build: <b id="knownBuild">unregistered</b></div>
+    </div>
+  </div>
+
+  <!-- Firmware catalog -->
+  <div class="stack">
+    <header style="padding: 16px 26px;">
+      <div class="table-head" style="width:100%">
+        <div>
+          <p class="eyebrow" style="margin:0">Warehouse record</p>
+          <h2 class="section-title" style="margin:2px 0 0">Cargo manifest — firmware inventory</h2>
+        </div>
+        <button id="refreshFirmware">Refresh</button>
+      </div>
+    </header>
+    <div class="sheet">
+      <table>
+        <thead><tr><th>Lot</th><th>Version</th><th>Build</th><th>Seal (SHA-256)</th><th>Received</th></tr></thead>
+        <tbody id="firmwareBody">
+          <tr class="empty-row"><td colspan="5">Not loaded yet — click Refresh.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Update logs -->
+  <div class="stack">
+    <header style="padding: 16px 26px;">
+      <div class="table-head" style="width:100%">
+        <div>
+          <p class="eyebrow" style="margin:0">Audit trail</p>
+          <h2 class="section-title" style="margin:2px 0 0">Delivery log</h2>
+        </div>
+        <div class="btn-row" style="margin-top:0">
+          <button id="exportBtn">Export session evidence</button>
+          <button id="refreshLogs">Refresh</button>
+        </div>
+      </div>
+    </header>
+    <div class="sheet">
+      <table>
+        <thead><tr><th>Entry</th><th>Device</th><th>Lot</th><th>Outcome</th><th>Time</th></tr></thead>
+        <tbody id="logsBody">
+          <tr class="empty-row"><td colspan="5">Not loaded yet — click Refresh.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Threat coverage -->
+  <div class="stack">
+    <header style="padding: 16px 26px;">
+      <p class="eyebrow" style="margin:0">Documentation</p>
+      <h2 class="section-title" style="margin:2px 0 0">Threat coverage</h2>
+    </header>
+    <div class="sheet">
+      <table>
+        <thead><tr><th>Attack</th><th>Detection method</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>MITM firmware swap</td><td>SHA-256 hash mismatch</td><td><span class="tag success">Protected</span></td></tr>
+          <tr><td>Forged / unsigned firmware</td><td>RSA signature invalid</td><td><span class="tag success">Protected</span></td></tr>
+          <tr><td>Corrupted download</td><td>SHA-256 hash mismatch</td><td><span class="tag success">Protected</span></td></tr>
+          <tr><td>Rollback to an older build</td><td>Build-number check (server-side filter + client-side anti-rollback)</td><td><span class="tag success">Protected</span></td></tr>
+          <tr><td>Tampered firmware in transit</td><td>Hash and signature both fail</td><td><span class="tag success">Protected</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>Talks directly to the live FastAPI depot server over HTTPS · signature verification runs client-side via the Web Crypto API</footer>
+
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+function baseUrl() { return $('baseUrl').value.replace(/\/$/, ''); }
+function deviceId() { return $('deviceId').value.trim(); }
+
+// Tracks the device's last known build number locally, purely for the
+// rollback-attack demo below — the server is always the real source of truth.
+let knownBuildNumber = null;
+function setKnownBuild(n) {
+  knownBuildNumber = n;
+  $('knownBuild').textContent = (n === null) ? 'unregistered' : n;
+}
+
+// ---------- Ledger logging ----------
+
+function logLine(text, cls) {
+  const term = $('terminal');
+  const first = term.querySelector('.l-muted');
+  if (first && first.textContent.includes('awaiting inspection')) term.innerHTML = '';
+  const div = document.createElement('div');
+  div.className = 'line ' + (cls || 'l-info');
+  const ts = new Date().toISOString().split('T')[1].split('.')[0];
+  div.textContent = `[${ts}] ${text}`;
+  term.appendChild(div);
+  term.scrollTop = term.scrollHeight;
+}
+
+$('clearBtn').addEventListener('click', () => {
+  $('terminal').innerHTML = '<div class="line l-muted">&gt; awaiting inspection order…</div>';
+  resetSteps();
+  setStamp('pending');
+});
+
+// ---------- Checklist + stamp state ----------
+
+function resetSteps() {
+  document.querySelectorAll('.check-item').forEach(s => {
+    s.classList.remove('active', 'pass', 'fail');
+    s.querySelector('.box').textContent = '□';
+  });
+}
+function setStep(name, state) {
+  const el = document.querySelector(`.check-item[data-step="${name}"]`);
+  if (!el) return;
+  el.classList.remove('active', 'pass', 'fail');
+  const box = el.querySelector('.box');
+  if (state === 'active') { el.classList.add('active'); box.textContent = '…'; }
+  if (state === 'pass') { el.classList.add('pass'); box.textContent = '✓'; }
+  if (state === 'fail') { el.classList.add('fail'); box.textContent = '✕'; }
+}
+
+function setStamp(kind) {
+  const el = $('stamp');
+  el.classList.remove('show', 'cleared', 'rejected');
+  if (kind === 'pending') { el.textContent = 'PENDING'; return; }
+  if (kind === 'cleared') { el.textContent = 'CLEARED'; el.classList.add('cleared'); }
+  if (kind === 'rejected') { el.textContent = 'REJECTED'; el.classList.add('rejected'); }
+  // force reflow so the transition replays each time
+  void el.offsetWidth;
+  el.classList.add('show');
+}
+
+// ---------- Server health ----------
+
+async function checkServer() {
+  const dot = $('serverDot'), txt = $('serverText');
+  dot.className = 'dot checking';
+  txt.textContent = 'checking server…';
+  try {
+    const r = await fetch(baseUrl() + '/health', { cache: 'no-store' });
+    if (r.ok) { dot.className = 'dot up'; txt.textContent = 'depot online'; }
+    else { dot.className = 'dot down'; txt.textContent = `depot error (${r.status})`; }
+  } catch (e) {
+    dot.className = 'dot down';
+    txt.textContent = 'depot unreachable';
+  }
+}
+
+// ---------- Register device ----------
+
+$('registerBtn').addEventListener('click', async () => {
+  const statusEl = $('registerStatus');
+  statusEl.className = 'status-line';
+  statusEl.textContent = 'filing registration…';
+  try {
+    const r = await fetch(baseUrl() + '/devices/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ device_id: deviceId() })
+    });
+    const data = await r.json();
+    if (r.ok) {
+      statusEl.className = 'status-line ok';
+      statusEl.textContent = `✓ on file — current build ${data.current_build_number}`;
+      setKnownBuild(data.current_build_number);
+    } else {
+      statusEl.className = 'status-line err';
+      statusEl.textContent = `✕ ${data.detail || r.status}`;
+    }
+  } catch (e) {
+    statusEl.className = 'status-line err';
+    statusEl.textContent = `✕ ${e.message}`;
+  }
+});
+
+// ---------- Crypto helpers ----------
+
+function pemToArrayBuffer(pem) {
+  const b64 = pem
+    .replace('-----BEGIN PUBLIC KEY-----', '')
+    .replace('-----END PUBLIC KEY-----', '')
+    .replace(/\s+/g, '');
+  const binary = atob(b64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes.buffer;
+}
+
+async function importRsaPublicKey(pem) {
+  return crypto.subtle.importKey(
+    'spki',
+    pemToArrayBuffer(pem),
+    { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
+    true,
+    ['verify']
+  );
+}
+
+function hexToBytes(hex) {
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < bytes.length; i++) bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+  return bytes;
+}
+
+async function sha256Hex(buffer) {
+  const digest = await crypto.subtle.digest('SHA-256', buffer);
+  return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function generateThrowawayWrongKeyPem() {
+  const kp = await crypto.subtle.generateKey(
+    { name: 'RSASSA-PKCS1-v1_5', modulusLength: 2048, publicExponent: new Uint8Array([1,0,1]), hash: 'SHA-256' },
+    true,
+    ['sign', 'verify']
+  );
+  const spki = await crypto.subtle.exportKey('spki', kp.publicKey);
+  const b64 = btoa(String.fromCharCode(...new Uint8Array(spki)));
+  return `-----BEGIN PUBLIC KEY-----\n${b64}\n-----END PUBLIC KEY-----`;
+}
+
+// ---------- Main inspection run ----------
+
+async function runVerification(opts) {
+  opts = opts || {};
+  resetSteps();
+  setStamp('pending');
+  logLine('='.repeat(48), 'l-muted');
+  logLine('INSPECTION ORDER OPENED', 'l-info');
+  logLine('='.repeat(48), 'l-muted');
+
+  let update;
+  try {
+    const r = await fetch(`${baseUrl()}/devices/${deviceId()}/check-update`);
+    update = await r.json();
+    if (!r.ok) { logLine(`Manifest lookup failed: ${update.detail || r.status}`, 'l-err'); setStamp('rejected'); return; }
+  } catch (e) {
+    logLine(`Network error: ${e.message}`, 'l-err');
+    setStamp('rejected');
+    return;
+  }
+
+  if (!update.update_available) {
+    logLine('No shipment pending.', 'l-warn');
+    return;
+  }
+  logLine(`Lot version : ${update.latest_version}`, 'l-info');
+  logLine(`Lot build   : ${update.latest_build_number}`, 'l-info');
+
+  // Step 1: download
+  setStep('download', 'active');
+  logLine('Receiving package from depot…', 'l-info');
+  let firmwareBuf;
+  try {
+    const fr = await fetch(baseUrl() + update.download_url);
+    if (!fr.ok) { setStep('download', 'fail'); logLine(`Receiving failed: ${fr.status}`, 'l-err'); setStamp('rejected'); return; }
+    firmwareBuf = await fr.arrayBuffer();
+    setStep('download', 'pass');
+    logLine(`Received ${firmwareBuf.byteLength} bytes`, 'l-ok');
+  } catch (e) {
+    setStep('download', 'fail');
+    logLine(`Receiving error: ${e.message}`, 'l-err');
+    setStamp('rejected');
+    return;
+  }
+
+  if (opts.tamper) {
+    const bytes = new Uint8Array(firmwareBuf);
+    bytes[0] = bytes[0] ^ 0xff;
+    logLine('[SIMULATION] Seal broken — one byte altered after receipt', 'l-warn');
+  }
+
+  // Step 2: hash
+  setStep('hash', 'active');
+  const calculatedHash = await sha256Hex(firmwareBuf);
+  logLine(`Calculated seal : ${calculatedHash}`, 'l-info');
+  logLine(`Manifest seal    : ${update.sha256_hash}`, 'l-info');
+
+  if (calculatedHash !== update.sha256_hash) {
+    setStep('hash', 'fail');
+    logLine('SEAL BROKEN — package does not match manifest, rejected', 'l-err');
+    setStamp('rejected');
+    return;
+  }
+  setStep('hash', 'pass');
+  logLine('Seal intact', 'l-ok');
+
+  // Step 3: signature
+  setStep('sig', 'active');
+  const pem = $('publicKey').value.trim();
+  if (!pem) {
+    setStep('sig', 'fail');
+    logLine('No key on file — paste the consignee public key to clear customs', 'l-err');
+    setStamp('rejected');
+    return;
+  }
+
+  try {
+    const keyPem = opts.wrongKey ? await generateThrowawayWrongKeyPem() : pem;
+    if (opts.wrongKey) logLine('[SIMULATION] Checking against an unrelated, freshly issued key', 'l-warn');
+
+    const publicKey = await importRsaPublicKey(keyPem);
+    const sigBytes = hexToBytes(update.signature_hex);
+    const isValid = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', publicKey, sigBytes, firmwareBuf);
+
+    if (!isValid) {
+      setStep('sig', 'fail');
+      logLine('CUSTOMS SIGNATURE INVALID — package not from a bonded source, rejected', 'l-err');
+      setStamp('rejected');
+      return;
+    }
+    setStep('sig', 'pass');
+    logLine('Signature cleared customs', 'l-ok');
+  } catch (e) {
+    setStep('sig', 'fail');
+    logLine(`Signature check error: ${e.message}`, 'l-err');
+    setStamp('rejected');
+    return;
+  }
+
+  // Step 4: rollback
+  setStep('rollback', 'active');
+  logLine('Expiry check: depot only offers builds newer than device\u2019s current build', 'l-info');
+  setStep('rollback', 'pass');
+
+  // Step 5: install
+  setStep('install', 'active');
+  logLine('Delivering to warehouse floor…', 'l-info');
+  await new Promise(r => setTimeout(r, 600));
+  logLine('Package installed.', 'l-ok');
+  await new Promise(r => setTimeout(r, 400));
+  logLine('Rebooting device…', 'l-info');
+  await new Promise(r => setTimeout(r, 600));
+  setStep('install', 'pass');
+  logLine('Device back online, running new firmware.', 'l-ok');
+  logLine('SHIPMENT CLEARED — INSPECTION COMPLETE', 'l-ok');
+  setStamp('cleared');
+  setKnownBuild(update.latest_build_number);
+}
+
+$('runBtn').addEventListener('click', () => runVerification());
+$('tamperBtn').addEventListener('click', () => runVerification({ tamper: true }));
+$('wrongKeyBtn').addEventListener('click', () => runVerification({ wrongKey: true }));
+
+// ---------- Firmware catalog ----------
+
+$('refreshFirmware').addEventListener('click', async () => {
+  const body = $('firmwareBody');
+  body.innerHTML = '<tr class="empty-row"><td colspan="5">Loading…</td></tr>';
+  try {
+    const r = await fetch(baseUrl() + '/firmware/all');
+    const data = await r.json();
+    if (!data.length) {
+      body.innerHTML = '<tr class="empty-row"><td colspan="5">No lots received yet.</td></tr>';
+      return;
+    }
+    body.innerHTML = data.map(fw => `
+      <tr>
+        <td>#${fw.id}</td>
+        <td>${fw.version}</td>
+        <td>${fw.build_number}</td>
+        <td title="${fw.sha256_hash}">${fw.sha256_hash.slice(0, 16)}…</td>
+        <td>${fw.created_at || '—'}</td>
+      </tr>`).join('');
+  } catch (e) {
+    body.innerHTML = `<tr class="empty-row"><td colspan="5">Error: ${e.message}</td></tr>`;
+  }
+});
+
+// ---------- Update logs ----------
+
+$('refreshLogs').addEventListener('click', async () => {
+  const body = $('logsBody');
+  body.innerHTML = '<tr class="empty-row"><td colspan="5">Loading…</td></tr>';
+  try {
+    const r = await fetch(baseUrl() + '/logs');
+    const data = await r.json();
+    if (!data.length) {
+      body.innerHTML = '<tr class="empty-row"><td colspan="5">No entries logged yet.</td></tr>';
+      return;
+    }
+    body.innerHTML = data.slice().reverse().map(log => {
+      const cls = log.status === 'success' ? 'success' : ((log.status && log.status.includes('fail')) || log.status === 'rollback_blocked' ? 'fail' : 'other');
+      return `
+      <tr>
+        <td>#${log.id}</td>
+        <td>${log.device_id}</td>
+        <td>#${log.firmware_id}</td>
+        <td><span class="tag ${cls}">${log.status}</span></td>
+        <td>${log.timestamp || '—'}</td>
+      </tr>`;
+    }).join('');
+  } catch (e) {
+    body.innerHTML = `<tr class="empty-row"><td colspan="5">Error: ${e.message}</td></tr>`;
+  }
+});
+
+// ---------- Vendor / CI signing bench ----------
+
+let vendorKeyPair = null; // { privateKey, publicKey } — lives only in this tab, never sent anywhere
+
+$('genKeyBtn').addEventListener('click', async () => {
+  const statusEl = $('signStatus');
+  statusEl.className = 'status-line';
+  statusEl.textContent = 'generating 2048-bit RSA keypair…';
+  try {
+    vendorKeyPair = await crypto.subtle.generateKey(
+      { name: 'RSASSA-PKCS1-v1_5', modulusLength: 2048, publicExponent: new Uint8Array([1,0,1]), hash: 'SHA-256' },
+      true,
+      ['sign', 'verify']
+    );
+    const spki = await crypto.subtle.exportKey('spki', vendorKeyPair.publicKey);
+    const b64 = btoa(String.fromCharCode(...new Uint8Array(spki)));
+    const pem = `-----BEGIN PUBLIC KEY-----\n${b64}\n-----END PUBLIC KEY-----`;
+    $('mfPublicKeyOut').value = pem;
+    $('publicKey').value = pem; // auto-copy so the inspection panel can verify what this bench signs
+    statusEl.className = 'status-line ok';
+    statusEl.textContent = '✓ keypair generated — public key copied to inspection panel';
+  } catch (e) {
+    statusEl.className = 'status-line err';
+    statusEl.textContent = `✕ ${e.message}`;
+  }
+});
+
+$('signUploadBtn').addEventListener('click', async () => {
+  const statusEl = $('signStatus');
+  if (!vendorKeyPair) {
+    statusEl.className = 'status-line err';
+    statusEl.textContent = '✕ generate a signing key first';
+    return;
+  }
+  statusEl.className = 'status-line';
+  statusEl.textContent = 'signing and uploading…';
+
+  try {
+    const version = $('mfVersion').value.trim();
+    const buildNumber = parseInt($('mfBuild').value.trim(), 10);
+    const payloadText = $('mfPayload').value;
+    const payloadBytes = new TextEncoder().encode(payloadText);
+
+    const hashHex = await sha256Hex(payloadBytes.buffer);
+    const sigBuf = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', vendorKeyPair.privateKey, payloadBytes);
+    const sigHex = [...new Uint8Array(sigBuf)].map(b => b.toString(16).padStart(2, '0')).join('');
+
+    const form = new FormData();
+    form.append('version', version);
+    form.append('build_number', String(buildNumber));
+    form.append('sha256_hash', hashHex);
+    form.append('signature_hex', sigHex);
+    form.append('file', new Blob([payloadBytes], { type: 'application/octet-stream' }), `${version}.bin`);
+
+    const r = await fetch(baseUrl() + '/firmware/upload', { method: 'POST', body: form });
+    const data = await r.json();
+
+    if (r.ok) {
+      statusEl.className = 'status-line ok';
+      statusEl.textContent = `✓ lot #${data.id} uploaded — v${data.version} build ${data.build_number}`;
+    } else {
+      statusEl.className = 'status-line err';
+      statusEl.textContent = `✕ rejected: ${data.detail || r.status}`;
+    }
+  } catch (e) {
+    statusEl.className = 'status-line err';
+    statusEl.textContent = `✕ ${e.message}`;
+  }
+});
+
+// ---------- Rollback attack simulator ----------
+
+$('rollbackBtn').addEventListener('click', () => {
+  const statusEl = $('rollbackStatus');
+  const attempted = parseInt($('rollbackAttempt').value.trim(), 10);
+
+  if (knownBuildNumber === null) {
+    statusEl.className = 'status-line err';
+    statusEl.innerHTML = '✕ register the device first — no known build to compare against';
+    return;
+  }
+  if (Number.isNaN(attempted)) {
+    statusEl.className = 'status-line err';
+    statusEl.innerHTML = '✕ enter a valid build number';
+    return;
+  }
+
+  // Same rule as version_manager.is_rollback() in agent.py: incoming <= current is a rollback
+  if (attempted <= knownBuildNumber) {
+    statusEl.className = 'status-line err';
+    statusEl.innerHTML = `✕ BLOCKED — build ${attempted} ≤ current build <b>${knownBuildNumber}</b> (rollback attack detected)`;
+    logLine(`[SIMULATION] Downgrade to build ${attempted} attempted — BLOCKED (current build ${knownBuildNumber})`, 'l-err');
+  } else {
+    statusEl.className = 'status-line ok';
+    statusEl.innerHTML = `✓ would be accepted — build ${attempted} &gt; current build <b>${knownBuildNumber}</b>`;
+    logLine(`[SIMULATION] Update to build ${attempted} attempted — would be accepted (current build ${knownBuildNumber})`, 'l-warn');
+  }
+});
+
+// ---------- Export session evidence ----------
+
+$('exportBtn').addEventListener('click', () => {
+  const ledgerText = $('terminal').innerText;
+  const firmwareRows = [...document.querySelectorAll('#firmwareBody tr')].map(r => r.innerText.replace(/\t/g, ' | ')).join('\n');
+  const logRows = [...document.querySelectorAll('#logsBody tr')].map(r => r.innerText.replace(/\t/g, ' | ')).join('\n');
+
+  const report = [
+    'OTA FIRMWARE MANIFEST — SESSION EVIDENCE',
+    `Exported: ${new Date().toISOString()}`,
+    `Server: ${baseUrl()}`,
+    `Device: ${deviceId()}`,
+    '',
+    '--- INSPECTION LEDGER ---',
+    ledgerText,
+    '',
+    '--- FIRMWARE CATALOG (last refreshed) ---',
+    firmwareRows || '(not refreshed this session)',
+    '',
+    '--- DELIVERY LOG (last refreshed) ---',
+    logRows || '(not refreshed this session)',
+    ''
+  ].join('\n');
+
+  const blob = new Blob([report], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `ota-evidence-${Date.now()}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+});
+
+// ---------- Init ----------
+
+checkServer();
+setInterval(checkServer, 15000);
+</script>
+</body>
+</html>

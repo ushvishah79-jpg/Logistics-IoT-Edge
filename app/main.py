@@ -22,6 +22,12 @@ PROJECT_ROOT = os.path.dirname(BASE_DIR)
 FIRMWARE_DIR = os.path.join(PROJECT_ROOT, "firmware_storage")
 os.makedirs(FIRMWARE_DIR, exist_ok=True)
 
+# ---------------------------------------------------
+# Dashboard
+# ---------------------------------------------------
+
+DASHBOARD_PATH = os.path.join(PROJECT_ROOT, "dashboard", "ota.html")
+
 
 # ---------------------------------------------------
 # Root
@@ -37,9 +43,12 @@ def health_check():
     return {"status": "ok"}
 
 
-# ---------------------------------------------------
-# Upload Firmware
-# ---------------------------------------------------
+@app.get("/dashboard")
+def serve_dashboard():
+    if not os.path.isfile(DASHBOARD_PATH):
+        raise HTTPException(status_code=404, detail="Dashboard file not found on server")
+    return FileResponse(DASHBOARD_PATH, media_type="text/html")
+
 
 # ---------------------------------------------------
 # Upload Firmware

@@ -40,5 +40,47 @@
         "build_number": 103,
         "status": "rollback_blocked",
         "message": "Older or same firmware blocked"
+    },
+    {
+        "timestamp": "2026-08-04T21:37:24.938419",
+        "version": "3.0.0",
+        "build_number": 101,
+        "status": "rollback_blocked",
+        "message": "Older or same firmware blocked"
+    },
+    {
+        "timestamp": "2026-08-04T21:38:38.964788",
+        "version": "3.1.0",
+        "build_number": 105,
+        "status": "success",
+        "message": "Firmware installed successfully"
+    },
+    {
+        "timestamp": "2026-08-05T20:23:18.415563",
+        "version": "3.1.0",
+        "build_number": 105,
+        "status": "rollback_blocked",
+        "message": "Older or same firmware blocked"
+    },
+    {
+        "timestamp": "2026-08-05T20:23:41.575907",
+        "version": "3.1.0",
+        "build_number": 105,
+        "status": "rollback_blocked",
+        "message": "Older or same firmware blocked"
+    },
+    {
+        "timestamp": "2026-08-05T20:25:53.799560",
+        "version": "3.2.0",
+        "build_number": 106,
+        "status": "success",
+        "message": "Firmware installed successfully"
+    },
+    {
+        "timestamp": "2026-08-05T20:46:42.490520",
+        "version": "6.0.0",
+        "build_number": 1000,
+        "status": "signature_fail",
+        "message": "RSA signature invalid"
     }
 ]

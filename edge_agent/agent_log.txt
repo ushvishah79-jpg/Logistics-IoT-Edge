@@ -282,3 +282,98 @@
 [2026-08-04T20:56:14.808936] [INFO] Current Build : 103
 [2026-08-04T20:56:14.808936] [CRITICAL] ROLLBACK ATTACK DETECTED
 [2026-08-04T20:56:15.203794] [INFO] Reported status : rollback_blocked
+[2026-08-04T21:35:17.959207] [INFO] ============================================================
+[2026-08-04T21:35:17.960211] [INFO] EDGE DEVICE OTA UPDATE STARTED
+[2026-08-04T21:35:17.961561] [INFO] ============================================================
+[2026-08-04T21:35:18.808716] [CRITICAL] Unexpected Error : 404 Client Error: Not Found for url: https://logistics-iot-edge.onrender.com/devices/device_002/check-update
+[2026-08-04T21:37:24.043453] [INFO] ============================================================
+[2026-08-04T21:37:24.046829] [INFO] EDGE DEVICE OTA UPDATE STARTED
+[2026-08-04T21:37:24.048800] [INFO] ============================================================
+[2026-08-04T21:37:24.544548] [INFO] Latest Version : 3.0.0
+[2026-08-04T21:37:24.546705] [INFO] Latest Build   : 101
+[2026-08-04T21:37:24.549704] [INFO] Downloading firmware...
+[2026-08-04T21:37:24.881896] [INFO] Calculated SHA256 : 735b71422a559c74fc11c8267c65d34794c6a57729c350fd07a62fc71af6fb17
+[2026-08-04T21:37:24.883896] [INFO] SHA256 Verification Passed
+[2026-08-04T21:37:24.927161] [INFO] RSA Signature Verification Passed
+[2026-08-04T21:37:24.931354] [INFO] Current Build : 103
+[2026-08-04T21:37:24.934551] [CRITICAL] ROLLBACK ATTACK DETECTED
+[2026-08-04T21:37:25.468441] [INFO] Reported status : rollback_blocked
+[2026-08-04T21:38:33.085541] [INFO] ============================================================
+[2026-08-04T21:38:33.088559] [INFO] EDGE DEVICE OTA UPDATE STARTED
+[2026-08-04T21:38:33.089871] [INFO] ============================================================
+[2026-08-04T21:38:33.462828] [INFO] Latest Version : 3.1.0
+[2026-08-04T21:38:33.464849] [INFO] Latest Build   : 105
+[2026-08-04T21:38:33.467546] [INFO] Downloading firmware...
+[2026-08-04T21:38:33.910766] [INFO] Calculated SHA256 : 8b74f96f6244851c9851d4f91a0c1f93f9796c5e0fd06c35b419da7f139e626f
+[2026-08-04T21:38:33.912970] [INFO] SHA256 Verification Passed
+[2026-08-04T21:38:33.921082] [INFO] RSA Signature Verification Passed
+[2026-08-04T21:38:33.924416] [INFO] Current Build : 103
+[2026-08-04T21:38:33.926416] [INFO] Rollback Protection Passed
+[2026-08-04T21:38:33.927758] [INFO] Installing firmware...
+[2026-08-04T21:38:35.938385] [INFO] Firmware written successfully.
+[2026-08-04T21:38:36.945762] [INFO] Rebooting device...
+[2026-08-04T21:38:38.955477] [INFO] Device reboot completed.
+[2026-08-04T21:38:38.957570] [INFO] OTA Update Successful
+[2026-08-04T21:38:39.862408] [INFO] Reported status : success
+[2026-08-04T21:38:39.865520] [INFO] ============================================================
+[2026-08-04T21:38:39.867521] [INFO] OTA UPDATE COMPLETED SUCCESSFULLY
+[2026-08-04T21:38:39.868532] [INFO] ============================================================
+[2026-08-05T20:22:21.414984] [INFO] ============================================================
+[2026-08-05T20:22:21.417158] [INFO] EDGE DEVICE OTA UPDATE STARTED
+[2026-08-05T20:22:21.419726] [INFO] ============================================================
+[2026-08-05T20:22:22.424611] [CRITICAL] Unexpected Error : 404 Client Error: Not Found for url: https://logistics-iot-edge.onrender.com/devices/device_002/check-update
+[2026-08-05T20:23:17.046959] [INFO] ============================================================
+[2026-08-05T20:23:17.049093] [INFO] EDGE DEVICE OTA UPDATE STARTED
+[2026-08-05T20:23:17.050396] [INFO] ============================================================
+[2026-08-05T20:23:17.729532] [INFO] Latest Version : 3.1.0
+[2026-08-05T20:23:17.732546] [INFO] Latest Build   : 105
+[2026-08-05T20:23:17.736549] [INFO] Downloading firmware...
+[2026-08-05T20:23:18.343033] [INFO] Calculated SHA256 : 8b74f96f6244851c9851d4f91a0c1f93f9796c5e0fd06c35b419da7f139e626f
+[2026-08-05T20:23:18.344546] [INFO] SHA256 Verification Passed
+[2026-08-05T20:23:18.408646] [INFO] RSA Signature Verification Passed
+[2026-08-05T20:23:18.410689] [INFO] Current Build : 105
+[2026-08-05T20:23:18.413098] [CRITICAL] ROLLBACK ATTACK DETECTED
+[2026-08-05T20:23:18.826127] [INFO] Reported status : rollback_blocked
+[2026-08-05T20:23:40.765910] [INFO] ============================================================
+[2026-08-05T20:23:40.766915] [INFO] EDGE DEVICE OTA UPDATE STARTED
+[2026-08-05T20:23:40.768169] [INFO] ============================================================
+[2026-08-05T20:23:41.219068] [INFO] Latest Version : 3.1.0
+[2026-08-05T20:23:41.221064] [INFO] Latest Build   : 105
+[2026-08-05T20:23:41.222072] [INFO] Downloading firmware...
+[2026-08-05T20:23:41.560754] [INFO] Calculated SHA256 : 8b74f96f6244851c9851d4f91a0c1f93f9796c5e0fd06c35b419da7f139e626f
+[2026-08-05T20:23:41.561928] [INFO] SHA256 Verification Passed
+[2026-08-05T20:23:41.568009] [INFO] RSA Signature Verification Passed
+[2026-08-05T20:23:41.570151] [INFO] Current Build : 105
+[2026-08-05T20:23:41.573111] [CRITICAL] ROLLBACK ATTACK DETECTED
+[2026-08-05T20:23:41.915963] [INFO] Reported status : rollback_blocked
+[2026-08-05T20:25:47.835892] [INFO] ============================================================
+[2026-08-05T20:25:47.836995] [INFO] EDGE DEVICE OTA UPDATE STARTED
+[2026-08-05T20:25:47.838254] [INFO] ============================================================
+[2026-08-05T20:25:48.202154] [INFO] Latest Version : 3.2.0
+[2026-08-05T20:25:48.203334] [INFO] Latest Build   : 106
+[2026-08-05T20:25:48.204861] [INFO] Downloading firmware...
+[2026-08-05T20:25:48.543166] [INFO] Calculated SHA256 : cef7f2b3ecdf4e9e2e62b063116d8f223c6d736c05a6a75bab1993f04059b45c
+[2026-08-05T20:25:48.544842] [INFO] SHA256 Verification Passed
+[2026-08-05T20:25:48.551230] [INFO] RSA Signature Verification Passed
+[2026-08-05T20:25:48.553569] [INFO] Current Build : 105
+[2026-08-05T20:25:48.555090] [INFO] Rollback Protection Passed
+[2026-08-05T20:25:48.557320] [INFO] Installing firmware...
+[2026-08-05T20:25:50.563120] [INFO] Firmware written successfully.
+[2026-08-05T20:25:51.565077] [INFO] Rebooting device...
+[2026-08-05T20:25:53.580634] [INFO] Device reboot completed.
+[2026-08-05T20:25:53.793380] [INFO] OTA Update Successful
+[2026-08-05T20:25:54.628445] [INFO] Reported status : success
+[2026-08-05T20:25:54.629443] [INFO] ============================================================
+[2026-08-05T20:25:54.630445] [INFO] OTA UPDATE COMPLETED SUCCESSFULLY
+[2026-08-05T20:25:54.631558] [INFO] ============================================================
+[2026-08-05T20:46:40.687860] [INFO] ============================================================
+[2026-08-05T20:46:40.691385] [INFO] EDGE DEVICE OTA UPDATE STARTED
+[2026-08-05T20:46:40.692912] [INFO] ============================================================
+[2026-08-05T20:46:41.946277] [INFO] Latest Version : 6.0.0
+[2026-08-05T20:46:41.949830] [INFO] Latest Build   : 1000
+[2026-08-05T20:46:41.951243] [INFO] Downloading firmware...
+[2026-08-05T20:46:42.426330] [INFO] Calculated SHA256 : efe6403e25f9774578d262a163d258d20643d5f4a1faf5b7e808b2d1456f3c68
+[2026-08-05T20:46:42.428966] [INFO] SHA256 Verification Passed
+[2026-08-05T20:46:42.486299] [CRITICAL] INVALID RSA SIGNATURE
+[2026-08-05T20:46:42.488483] [WARNING] Payload discarded.
+[2026-08-05T20:46:42.943347] [INFO] Reported status : signature_fail

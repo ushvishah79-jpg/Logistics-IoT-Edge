@@ -15,7 +15,7 @@ from version_manager import (
 )
 
 BASE_URL = "https://logistics-iot-edge.onrender.com"
-DEVICE_ID = "device_002"
+DEVICE_ID = "device-001"
 
 PUBLIC_KEY_PATH = "device_public.pem"
 LOG_FILE = "agent_log.txt"
